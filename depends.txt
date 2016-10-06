@@ -1,0 +1,9 @@
+beds
+default
+doors
+stairs
+walls
+xpanes
+csh?
+furniture?
+moreblocks?
