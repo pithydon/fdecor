@@ -468,6 +468,12 @@ stairs.register_stair("bread", "fdecor:bread", {oddly_breakable_by_hand = 3, cho
 		"Bread Stair", default.node_sound_defaults())
 
 if minetest.get_modpath("moreblocks") then
+	stairsplus:register_all("stairs", "potato_brick", "fdecor:potato_brick", {
+		description = "Potato Brick",
+		tiles = {"fdecor_potato_brick.png"},
+		groups = {oddly_breakable_by_hand = 2, choppy = 2}
+	})
+
 	stairsplus:register_all("stairs", "blue_cheese", "fdecor:blue_cheese", {
 		description = "Blue Cheese",
 		tiles = {"fdecor_blue_cheese.png"},
@@ -524,6 +530,9 @@ if minetest.get_modpath("moreblocks") then
 		sounds = default.node_sound_stone_defaults()
 	})
 else
+	stairs.register_stair_and_slab("potato_brick", "fdecor:potato_brick", {oddly_breakable_by_hand = 2, choppy = 2},
+			{"fdecor_potato_brick.png"}, "Potato Brick Stairs", "Potato Brick Slab")
+
 	stairs.register_stair_and_slab("blue_cheese", "fdecor:blue_cheese", {oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
 			{"fdecor_blue_cheese.png"}, "Blue Cheese Stairs", "Blue Cheese Slab", default.node_sound_defaults())
 
@@ -566,6 +575,7 @@ if minetest.get_modpath("csh") then
 	csh.from_node("fdecor:carrot")
 	csh.from_node("fdecor:broccoli_stalk")
 	csh.from_node("fdecor:cauliflower_stalk")
+	csh.from_node("fdecor:potato_brick")
 	csh.from_node("fdecor:blue_cheese")
 	csh.from_node("fdecor:marble_cheese")
 	csh.from_node("fdecor:white_cheese")
