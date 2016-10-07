@@ -146,6 +146,14 @@ minetest.register_node("fdecor:cauliflower_flower", {
 	sounds = default.node_sound_defaults()
 })
 
+minetest.register_node("fdecor:purple_cauliflower", {
+	description = "Purple Cauliflower Block",
+	drawtype = "normal",
+	tiles = {"fdecor_purple_cauliflower.png"},
+	groups = {oddly_breakable_by_hand = 2, choppy = 3, snappy = 3},
+	sounds = default.node_sound_defaults()
+})
+
 minetest.register_node("fdecor:celery", {
 	description = "Celery Block",
 	drawtype = "nodebox",
