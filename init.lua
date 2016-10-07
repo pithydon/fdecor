@@ -29,33 +29,9 @@ minetest.register_node("fdecor:coconut", {
 	description = "Coconut Block",
 	drawtype = "normal",
 	tiles = {"fdecor_coconut_top.png", "fdecor_coconut.png"},
-	groups = {oddly_breakable_by_hand = 1, cracky = 2, falling_node = 1},
+	groups = {oddly_breakable_by_hand = 1, cracky = 2, falling_node = 1, falling_kill_node = 1},
 	sounds = default.node_sound_wood_defaults()
 })
-
-if minetest.setting_getbool("enable_damage") then
-	local falling_node = minetest.registered_entities["__builtin:falling_node"]
-	local on_step_old = falling_node.on_step
-	local on_step_add = function(self, dtime)
-		local node = minetest.registered_nodes[self.node.name]
-		if node.name == "fdecor:coconut" then
-			local pos = self.object:getpos()
-			local objs = minetest.get_objects_inside_radius(pos, 1)
-			for _,v in ipairs(objs) do
-				if v:is_player() then
-					v:set_hp(0)
-				end
-			end
-		end
-	end
-	local on_step_table = {on_step_old, on_step_add}
-	local on_step_new = table.copy(on_step_table)
-	falling_node.on_step = function(self, dtime)
-		for _,v in ipairs(on_step_new) do
-			v(self, dtime)
-		end
-	end
-end
 
 minetest.register_node("fdecor:banana", {
 	description = "Banana Block",
@@ -212,6 +188,20 @@ minetest.register_node("fdecor:potato", {
 	description = "Potato Block",
 	drawtype = "normal",
 	tiles = {"fdecor_potato.png"},
+	groups = {oddly_breakable_by_hand = 2, choppy = 2}
+})
+
+minetest.register_node("fdecor:mashed_potatoes", {
+	description = "Mashed Potatoes Block",
+	drawtype = "normal",
+	tiles = {"fdecor_mashed_potatoes.png"},
+	groups = {oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 1}
+})
+
+minetest.register_node("fdecor:potato_brick", {
+	description = "Potato Brick",
+	drawtype = "normal",
+	tiles = {"fdecor_potato_brick.png"},
 	groups = {oddly_breakable_by_hand = 2, choppy = 2}
 })
 
@@ -610,6 +600,23 @@ minetest.register_craft({
 		{"group:wood", "group:wood", "group:wood"},
 		{"farming:bread", "default:apple", "farming:bread"},
 		{"group:wood", "group:wood", "group:wood"}
+	}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "fdecor:mashed_potatoes",
+	recipe = {"default:stone", "fdecor:potato"},
+	replacements = {
+		{"default:stone", "default:stone"}
+	}
+})
+
+minetest.register_craft({
+	output = "fdecor:potato_brick",
+	recipe = {
+		{"fdecor:potato", "fdecor:potato"},
+		{"fdecor:potato", "fdecor:potato"}
 	}
 })
 
