@@ -29,10 +29,33 @@ minetest.register_node("fdecor:coconut", {
 	description = "Coconut Block",
 	drawtype = "normal",
 	tiles = {"fdecor_coconut_top.png", "fdecor_coconut.png"},
-	damage_per_second = 20,
 	groups = {oddly_breakable_by_hand = 1, cracky = 2, falling_node = 1},
 	sounds = default.node_sound_wood_defaults()
 })
+
+if minetest.setting_getbool("enable_damage") then
+	local falling_node = minetest.registered_entities["__builtin:falling_node"]
+	local on_step_old = falling_node.on_step
+	local on_step_add = function(self, dtime)
+		local node = minetest.registered_nodes[self.node.name]
+		if node.name == "fdecor:coconut" then
+			local pos = self.object:getpos()
+			local objs = minetest.get_objects_inside_radius(pos, 1)
+			for _,v in ipairs(objs) do
+				if v:is_player() then
+					v:set_hp(0)
+				end
+			end
+		end
+	end
+	local on_step_table = {on_step_old, on_step_add}
+	local on_step_new = table.copy(on_step_table)
+	falling_node.on_step = function(self, dtime)
+		for _,v in ipairs(on_step_new) do
+			v(self, dtime)
+		end
+	end
+end
 
 minetest.register_node("fdecor:banana", {
 	description = "Banana Block",
