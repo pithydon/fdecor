@@ -173,6 +173,17 @@ minetest.register_node("fdecor:celery", {
 	sounds = default.node_sound_defaults()
 })
 
+minetest.register_node("fdecor:celery_with_peanut_butter", {
+	description = "Celery with Peanut Butter Block",
+	drawtype = "normal",
+	paramtype2 = "facedir",
+	tiles = {"fdecor_celery_top.png", "fdecor_celery_top.png^[transformFY", "fdecor_celery_with_peanut_butter_side.png^[transformFX",
+			"fdecor_celery_with_peanut_butter_side.png", "fdecor_celery_side.png", "fdecor_peanut_butter.png"},
+	groups = {oddly_breakable_by_hand = 1, cracky = 1, choppy = 3},
+	on_place = minetest.rotate_node,
+	sounds = default.node_sound_defaults()
+})
+
 minetest.register_node("fdecor:rhubarb", {
 	description = "Rhubarb Block",
 	drawtype = "nodebox",
@@ -190,6 +201,13 @@ minetest.register_node("fdecor:rhubarb", {
 	groups = {oddly_breakable_by_hand = 1, cracky = 1, choppy = 3},
 	on_place = minetest.rotate_node,
 	sounds = default.node_sound_defaults()
+})
+
+minetest.register_node("fdecor:peanut_butter", {
+	description = "Peanut Butter Block",
+	drawtype = "normal",
+	tiles = {"fdecor_peanut_butter.png"},
+	groups = {oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1}
 })
 
 minetest.register_node("fdecor:potato", {
@@ -476,6 +494,18 @@ stairs.register_stair("bread", "fdecor:bread", {oddly_breakable_by_hand = 3, cho
 		"Bread Stair", default.node_sound_defaults())
 
 if minetest.get_modpath("moreblocks") then
+	stairsplus:register_all("stairs", "peanut_butter", "fdecor:peanut_butter", {
+		description = "Peanut Butter",
+		tiles = {"fdecor_peanut_butter.png"},
+		groups = {oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1}
+	})
+
+	stairsplus:register_all("stairs", "mashed_potatoes", "fdecor:mashed_potatoes", {
+		description = "Mashed Potatoes",
+		tiles = {"fdecor_mashed_potatoes.png"},
+		groups = {oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 1}
+	})
+
 	stairsplus:register_all("stairs", "potato_brick", "fdecor:potato_brick", {
 		description = "Potato Brick",
 		tiles = {"fdecor_potato_brick.png"},
@@ -538,6 +568,12 @@ if minetest.get_modpath("moreblocks") then
 		sounds = default.node_sound_stone_defaults()
 	})
 else
+	stairs.register_stair_and_slab("peanut_butter", "fdecor:peanut_butter", {oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1},
+			{"fdecor_peanut_butter.png"}, "Peanut Butter Stairs", "Peanut Butter Slab")
+
+	stairs.register_stair_and_slab("mashed_potatoes", "fdecor:mashed_potatoes", {oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 1},
+			{"fdecor_mashed_potatoes.png"}, "Mashed Potatoes Stairs", "Mashed Potatoes Slab")
+
 	stairs.register_stair_and_slab("potato_brick", "fdecor:potato_brick", {oddly_breakable_by_hand = 2, choppy = 2},
 			{"fdecor_potato_brick.png"}, "Potato Brick Stairs", "Potato Brick Slab")
 
@@ -623,6 +659,12 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "shapeless",
+	output = "fdecor:celery_with_peanut_butter",
+	recipe = {"fdecor:celery", "fdecor:peanut_butter"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
 	output = "fdecor:mashed_potatoes",
 	recipe = {"default:stone", "fdecor:potato"},
 	replacements = {
@@ -631,7 +673,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "fdecor:potato_brick",
+	output = "fdecor:potato_brick 4",
 	recipe = {
 		{"fdecor:potato", "fdecor:potato"},
 		{"fdecor:potato", "fdecor:potato"}

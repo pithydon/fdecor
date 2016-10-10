@@ -1,6 +1,10 @@
-fdecor by [pithydon] 2016
+fdecor by pithydon (2016)
 
 Food themed decoration mod.
+
+Forum: https://forum.minetest.net/viewtopic.php?f=11&t=15642
+
+Github: https://github.com/pithydon/fdecor
 
 License for all of this mod is "CC0", see below.
 
@@ -31,5 +35,3 @@ For these and/or other purposes and motivations, and without any expectation of 
 	c.	Affirmer disclaims responsibility for clearing rights of other persons that may apply to the Work or any use thereof, including without limitation any person's Copyright and Related Rights in the Work. Further, Affirmer disclaims responsibility for obtaining any necessary consents, permissions or other rights required for any use of the Work.
 	d.	Affirmer understands and acknowledges that Creative Commons is not a party to this document and has no duty or obligation with respect to this CC0 or use of the Work.
 ```
-
-[pithydon]: <https://github.com/pithydon>
