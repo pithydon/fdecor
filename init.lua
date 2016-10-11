@@ -340,6 +340,30 @@ minetest.register_node("fdecor:white_chocolate", {
 	sounds = default.node_sound_stone_defaults()
 })
 
+minetest.register_node("fdecor:milk_chocolate_brick", {
+	description = "Milk Chocolate Brick",
+	drawtype = "normal",
+	tiles = {"fdecor_milk_chocolate_brick.png"},
+	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+	sounds = default.node_sound_stone_defaults()
+})
+
+minetest.register_node("fdecor:dark_chocolate_brick", {
+	description = "Dark Chocolate Brick",
+	drawtype = "normal",
+	tiles = {"fdecor_dark_chocolate_brick.png"},
+	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+	sounds = default.node_sound_stone_defaults()
+})
+
+minetest.register_node("fdecor:white_chocolate_brick", {
+	description = "White Chocolate Brick",
+	drawtype = "normal",
+	tiles = {"fdecor_white_chocolate_brick.png"},
+	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+	sounds = default.node_sound_stone_defaults()
+})
+
 beds.register_bed("fdecor:banana_bed", {
 	description = "Banana Bed",
 	inventory_image = "fdecor_banana_bed_inv.png",
@@ -567,6 +591,27 @@ if minetest.get_modpath("moreblocks") then
 		groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
 		sounds = default.node_sound_stone_defaults()
 	})
+
+	stairsplus:register_all("stairs", "milk_chocolate_brick", "fdecor:milk_chocolate_brick", {
+		description = "Milk Chocolate Brick",
+		tiles = {"fdecor_milk_chocolate_brick.png"},
+		groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+		sounds = default.node_sound_stone_defaults()
+	})
+
+	stairsplus:register_all("stairs", "dark_chocolate_brick", "fdecor:dark_chocolate_brick", {
+		description = "Dark Chocolate Brick",
+		tiles = {"fdecor_dark_chocolate_brick.png"},
+		groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+		sounds = default.node_sound_stone_defaults()
+	})
+
+	stairsplus:register_all("stairs", "white_chocolate_brick", "fdecor:white_chocolate_brick", {
+		description = "White Chocolate Brick",
+		tiles = {"fdecor_white_chocolate_brick.png"},
+		groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+		sounds = default.node_sound_stone_defaults()
+	})
 else
 	stairs.register_stair_and_slab("peanut_butter", "fdecor:peanut_butter", {oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1},
 			{"fdecor_peanut_butter.png"}, "Peanut Butter Stairs", "Peanut Butter Slab")
@@ -600,6 +645,15 @@ else
 
 	stairs.register_stair_and_slab("white_chocolate", "fdecor:white_chocolate", {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
 			{"fdecor_white_chocolate.png"}, "White Chocolate Stairs", "White Chocolate Slab", default.node_sound_stone_defaults())
+
+	stairs.register_stair_and_slab("milk_chocolate_brick", "fdecor:milk_chocolate_brick", {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+			{"fdecor_milk_chocolate_brick.png"}, "Milk Chocolate Brick Stairs", "Milk Chocolate Brick Slab", default.node_sound_stone_defaults())
+
+	stairs.register_stair_and_slab("dark_chocolate_brick", "fdecor:dark_chocolate_brick", {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+			{"fdecor_dark_chocolate_brick.png"}, "Dark Chocolate Brick Stairs", "Dark Chocolate Brick Slab", default.node_sound_stone_defaults())
+
+	stairs.register_stair_and_slab("white_chocolate_brick", "fdecor:white_chocolate_brick", {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+			{"fdecor_white_chocolate_brick.png"}, "White Chocolate Brick Stairs", "White Chocolate Brick Slab", default.node_sound_stone_defaults())
 end
 
 if minetest.get_modpath("furniture") then
@@ -628,6 +682,9 @@ if minetest.get_modpath("csh") then
 	csh.from_node("fdecor:milk_chocolate")
 	csh.from_node("fdecor:dark_chocolate")
 	csh.from_node("fdecor:white_chocolate")
+	csh.from_node("fdecor:milk_chocolate_brick")
+	csh.from_node("fdecor:dark_chocolate_brick")
+	csh.from_node("fdecor:white_chocolate_brick")
 end
 
 minetest.register_craft({
@@ -677,6 +734,54 @@ minetest.register_craft({
 	recipe = {
 		{"fdecor:potato", "fdecor:potato"},
 		{"fdecor:potato", "fdecor:potato"}
+	}
+})
+
+minetest.register_craft({
+	output = "fdecor:milk_chocolate_brick 5",
+	recipe = {
+		{"", "fdecor:milk_chocolate", "fdecor:milk_chocolate"},
+		{"fdecor:white_chocolate", "fdecor:milk_chocolate", "fdecor:milk_chocolate"}
+	}
+})
+
+minetest.register_craft({
+	output = "fdecor:milk_chocolate_brick 5",
+	recipe = {
+		{"fdecor:milk_chocolate", "fdecor:milk_chocolate", ""},
+		{"fdecor:milk_chocolate", "fdecor:milk_chocolate", "fdecor:white_chocolate"}
+	}
+})
+
+minetest.register_craft({
+	output = "fdecor:dark_chocolate_brick 5",
+	recipe = {
+		{"", "fdecor:dark_chocolate", "fdecor:dark_chocolate"},
+		{"fdecor:white_chocolate", "fdecor:dark_chocolate", "fdecor:dark_chocolate"}
+	}
+})
+
+minetest.register_craft({
+	output = "fdecor:dark_chocolate_brick 5",
+	recipe = {
+		{"fdecor:dark_chocolate", "fdecor:dark_chocolate", ""},
+		{"fdecor:dark_chocolate", "fdecor:dark_chocolate", "fdecor:white_chocolate"}
+	}
+})
+
+minetest.register_craft({
+	output = "fdecor:white_chocolate_brick 5",
+	recipe = {
+		{"", "fdecor:white_chocolate", "fdecor:white_chocolate"},
+		{"fdecor:milk_chocolate", "fdecor:white_chocolate", "fdecor:white_chocolate"}
+	}
+})
+
+minetest.register_craft({
+	output = "fdecor:white_chocolate_brick 5",
+	recipe = {
+		{"fdecor:white_chocolate", "fdecor:white_chocolate", ""},
+		{"fdecor:white_chocolate", "fdecor:white_chocolate", "fdecor:milk_chocolate"}
 	}
 })
 
