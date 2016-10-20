@@ -925,6 +925,23 @@ if minetest.get_modpath("farming") and farming.mod == "redo" then
 	})
 end
 
+if minetest.get_modpath("moretrees") then
+	minetest.register_craft({
+		output = "fdecor:coconut",
+		recipe = {
+			{"moretrees:coconut", "moretrees:coconut", "moretrees:coconut"},
+			{"moretrees:coconut", "moretrees:coconut", "moretrees:coconut"},
+			{"moretrees:coconut", "moretrees:coconut", "moretrees:coconut"}
+		}
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "moretrees:coconut 9",
+		recipe = {"fdecor:coconut"}
+	})
+end
+
 minetest.override_item("default:apple", {groups = {food = 1, fleshy = 3, dig_immediate = 3, flammable = 2, leafdecay = 3, leafdecay_drop = 1}})
 if minetest.get_modpath("farming") then
 	minetest.override_item("farming:bread", {groups = {food = 1}})
