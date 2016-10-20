@@ -5,5 +5,7 @@ stairs
 walls
 xpanes
 csh?
+farming?
+flowers?
 furniture?
 moreblocks?
