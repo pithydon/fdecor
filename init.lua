@@ -863,6 +863,68 @@ minetest.register_craft({
 	recipe = {"fdecor:brown_mushroom"}
 })
 
+if minetest.get_modpath("farming") and farming.mod == "redo" then
+	minetest.register_craft({
+		output = "fdecor:carrot",
+		recipe = {
+			{"farming:carrot", "farming:carrot", "farming:carrot"},
+			{"farming:carrot", "farming:carrot", "farming:carrot"},
+			{"farming:carrot", "farming:carrot", "farming:carrot"}
+		}
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "farming:carrot 9",
+		recipe = {"fdecor:carrot"}
+	})
+
+	minetest.register_craft({
+		output = "fdecor:dark_chocolate",
+		recipe = {
+			{"farming:chocolate_dark", "farming:chocolate_dark", "farming:chocolate_dark"},
+			{"farming:chocolate_dark", "farming:chocolate_dark", "farming:chocolate_dark"},
+			{"farming:chocolate_dark", "farming:chocolate_dark", "farming:chocolate_dark"}
+		}
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "farming:chocolate_dark 9",
+		recipe = {"fdecor:dark_chocolate"}
+	})
+
+	minetest.register_craft({
+		output = "fdecor:potato",
+		recipe = {
+			{"farming:potato", "farming:potato", "farming:potato"},
+			{"farming:potato", "farming:potato", "farming:potato"},
+			{"farming:potato", "farming:potato", "farming:potato"}
+		}
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "farming:potato 9",
+		recipe = {"fdecor:potato"}
+	})
+
+	minetest.register_craft({
+		output = "fdecor:rhubarb",
+		recipe = {
+			{"farming:rhubarb", "farming:rhubarb", "farming:rhubarb"},
+			{"farming:rhubarb", "farming:rhubarb", "farming:rhubarb"},
+			{"farming:rhubarb", "farming:rhubarb", "farming:rhubarb"}
+		}
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "farming:rhubarb 9",
+		recipe = {"fdecor:rhubarb"}
+	})
+end
+
 minetest.override_item("default:apple", {groups = {food = 1, fleshy = 3, dig_immediate = 3, flammable = 2, leafdecay = 3, leafdecay_drop = 1}})
 if minetest.get_modpath("farming") then
 	minetest.override_item("farming:bread", {groups = {food = 1}})
