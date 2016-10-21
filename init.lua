@@ -1,44 +1,62 @@
 minetest.register_node("fdecor:food_shelf", {
 	description = "Food Shelf",
-	tiles = {"default_wood.png", "default_wood.png", "default_wood.png^fdecor_food_shelf.png"},
+	tiles = {"fdecor_food_shelf_old.png"},
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, not_in_creative_inventory = 1},
 	sounds = default.node_sound_wood_defaults(),
-	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
-		meta:set_string("formspec", "size[8,7;]"..default.gui_bg..default.gui_bg_img..default.gui_slots
-				.."list[context;food;0,0.3;8,2;]list[current_player;main;0,2.85;8,1;]list[current_player;main;0,4.08;8,3;8]"
-				.."listring[context;food]listring[current_player;main]"..default.get_hotbar_bg(0,2.85))
-		local inv = meta:get_inventory()
-		inv:set_size("food", 8 * 2)
-	end,
-	can_dig = function(pos,player)
-		local inv = minetest.get_meta(pos):get_inventory()
-		return inv:is_empty("food")
-	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack)
-		if minetest.get_item_group(stack:get_name(), "food") ~= 0 then
-			return stack:get_count()
-		end
 		return 0
 	end,
 	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		minetest.log("action", player:get_player_name().." moves stuff in food shelf at "..minetest.pos_to_string(pos))
-	end,
-	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name().." moves stuff to food shelf at "..minetest.pos_to_string(pos))
 	end,
 	on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name().." takes stuff from food shelf at "..minetest.pos_to_string(pos))
 	end,
 	on_blast = function(pos)
 		local drops = {}
-		default.get_inventory_drops(pos, "books", drops)
+		default.get_inventory_drops(pos, "food", drops)
 		drops[#drops+1] = "fdecor:food_shelf"
 		minetest.remove_node(pos)
 		return drops
 	end
 })
+
+if minetest.get_modpath("moreshelves") then
+	minetest.override_item("fdecor:food_shelf", {
+		after_place_node = function(pos, placer, itemstack, pointed_thing)
+			minetest.remove_node(pos)
+			minetest.place_node(pos, {name = "moreshelves:food_shelf"})
+		end
+	})
+
+	local add_items = function(pos, drops)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		for _,v in ipairs(drops) do
+			inv:add_item("shelf", v)
+		end
+	end
+
+	minetest.register_lbm({
+		name = "fdecor:replace_old_shelves",
+		nodenames = {"fdecor:food_shelf"},
+		run_at_every_load = true,
+		action = function(pos, node)
+			local drops = {}
+			default.get_inventory_drops(pos, "food", drops)
+			minetest.remove_node(pos)
+			minetest.place_node(pos, {name = "moreshelves:food_shelf"})
+			minetest.after(0.01, add_items, pos, drops)
+		end
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "moreshelves:food_shelf",
+		recipe = {"fdecor:food_shelf"}
+	})
+end
 
 minetest.register_node("fdecor:coconut", {
 	description = "Coconut Block",
@@ -940,12 +958,4 @@ if minetest.get_modpath("moretrees") then
 		output = "moretrees:coconut 9",
 		recipe = {"fdecor:coconut"}
 	})
-end
-
-minetest.override_item("default:apple", {groups = {food = 1, fleshy = 3, dig_immediate = 3, flammable = 2, leafdecay = 3, leafdecay_drop = 1}})
-if minetest.get_modpath("farming") then
-	minetest.override_item("farming:bread", {groups = {food = 1}})
-end
-if minetest.get_modpath("flowers") then
-	minetest.override_item("flowers:mushroom_brown", {groups = {food = 1, snappy = 3, attached_node = 1}})
 end

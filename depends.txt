@@ -9,4 +9,5 @@ farming?
 flowers?
 furniture?
 moreblocks?
+moreshelves?
 moretrees?
