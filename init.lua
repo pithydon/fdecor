@@ -66,6 +66,13 @@ minetest.register_node("fdecor:apple", {
 	sounds = default.node_sound_defaults()
 })
 
+minetest.register_node("fdecor:apple_sauce", {
+	description = "Apple Sauce Block",
+	drawtype = "normal",
+	tiles = {"fdecor_apple_sauce.png"},
+	groups = {food = 1, crumbly = 3, oddly_breakable_by_hand = 3, explody = 1, falling_node = 1}
+})
+
 minetest.register_node("fdecor:coconut", {
 	description = "Coconut Block",
 	drawtype = "normal",
@@ -727,6 +734,15 @@ if minetest.get_modpath("csh") then
 	csh.from_node("fdecor:dark_chocolate_brick")
 	csh.from_node("fdecor:white_chocolate_brick")
 end
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "fdecor:apple_sauce",
+	recipe = {"default:stone", "fdecor:apple"},
+	replacements = {
+		{"default:stone", "default:stone"}
+	}
+})
 
 minetest.register_craft({
 	type = "shapeless",
