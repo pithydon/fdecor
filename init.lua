@@ -58,11 +58,19 @@ if minetest.get_modpath("moreshelves") then
 	})
 end
 
+minetest.register_node("fdecor:apple", {
+	description = "Apple Block",
+	drawtype = "normal",
+	tiles = {"fdecor_apple_top.png", "fdecor_apple_bottom.png", "fdecor_apple_side.png"},
+	groups = {food = 1, oddly_breakable_by_hand = 2, choppy = 3, falling_hanging_node = 1},
+	sounds = default.node_sound_defaults()
+})
+
 minetest.register_node("fdecor:coconut", {
 	description = "Coconut Block",
 	drawtype = "normal",
 	tiles = {"fdecor_coconut_top.png", "fdecor_coconut.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 2, falling_node = 1, falling_kill_node = 1},
+	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 2, falling_hanging_node = 1, falling_kill_node = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -739,15 +747,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "fdecor:food_shelf",
-	recipe = {
-		{"group:wood", "group:wood", "group:wood"},
-		{"farming:bread", "default:apple", "farming:bread"},
-		{"group:wood", "group:wood", "group:wood"}
-	}
-})
-
-minetest.register_craft({
 	type = "shapeless",
 	output = "fdecor:celery_with_peanut_butter",
 	recipe = {"fdecor:celery", "fdecor:peanut_butter"}
@@ -816,6 +815,21 @@ minetest.register_craft({
 		{"fdecor:white_chocolate", "fdecor:white_chocolate", ""},
 		{"fdecor:white_chocolate", "fdecor:white_chocolate", "fdecor:milk_chocolate"}
 	}
+})
+
+minetest.register_craft({
+	output = "fdecor:apple",
+	recipe = {
+		{"default:apple", "default:apple", "default:apple"},
+		{"default:apple", "default:apple", "default:apple"},
+		{"default:apple", "default:apple", "default:apple"}
+	}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "default:apple 9",
+	recipe = {"fdecor:apple"}
 })
 
 minetest.register_craft({
