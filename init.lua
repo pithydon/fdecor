@@ -713,6 +713,24 @@ if minetest.get_modpath("furniture") then
 	furniture.register_stone("fdecor:milk_chocolate", {})
 	furniture.register_stone("fdecor:dark_chocolate", {})
 	furniture.register_stone("fdecor:white_chocolate", {})
+	furniture.register_wool("fdecor:potato", {handle_crafts = false})
+
+	minetest.register_craft({
+		output = "furniture:chair_potato",
+		recipe = {
+			{"fdecor:potato", "", "fdecor:potato"},
+			{"fdecor:potato", "fdecor:potato", "fdecor:potato"},
+			{"fdecor:potato", "fdecor:potato", "fdecor:potato"}
+		}
+	})
+
+	minetest.register_craft({
+		output = "furniture:stool_potato",
+		recipe = {
+			{"fdecor:potato", "fdecor:potato", "fdecor:potato"},
+			{"fdecor:potato", "fdecor:potato", "fdecor:potato"}
+		}
+	})
 end
 
 if minetest.get_modpath("csh") then
