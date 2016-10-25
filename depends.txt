@@ -4,6 +4,7 @@ doors
 stairs
 walls
 xpanes
+crops?
 csh?
 farming?
 flowers?

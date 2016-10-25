@@ -929,6 +929,23 @@ minetest.register_craft({
 	recipe = {"fdecor:brown_mushroom"}
 })
 
+if minetest.get_modpath("crops") then
+	minetest.register_craft({
+		output = "fdecor:potato",
+		recipe = {
+			{"crops:potato", "crops:potato", "crops:potato"},
+			{"crops:potato", "crops:potato", "crops:potato"},
+			{"crops:potato", "crops:potato", "crops:potato"}
+		}
+	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "crops:potato 9",
+		recipe = {"fdecor:potato"}
+	})
+end
+
 if minetest.get_modpath("farming") and farming.mod == "redo" then
 	minetest.register_craft({
 		output = "fdecor:carrot",
