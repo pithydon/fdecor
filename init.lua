@@ -558,7 +558,7 @@ stairs.register_stair("red_banana", "fdecor:red_banana", {food = 1, oddly_breaka
 		"Red Banana Stair", default.node_sound_defaults())
 
 stairs.register_slab("bread", "fdecor:bread", {food = 1, oddly_breakable_by_hand = 3, choppy = 3, snappy = 2, flammable = 3},
-		{"fdecor_bread_slice_top.png", "fdecor_bread_bottom.png", "fdecor_bread_side.png", "fdecor_bread_side.png", "fdecor_bread_slice.png"},
+		{"fdecor_bread_slice.png", "fdecor_bread_slice.png", "fdecor_bread_side.png^[transformR270", "fdecor_bread_side.png^[transformR90", "fdecor_bread_top.png", "fdecor_bread_bottom.png"},
 		"Bread Slab", default.node_sound_defaults())
 
 stairs.register_stair("bread", "fdecor:bread", {food = 1, oddly_breakable_by_hand = 3, choppy = 3, snappy = 2, flammable = 3},
