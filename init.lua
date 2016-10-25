@@ -412,6 +412,15 @@ minetest.register_node("fdecor:white_chocolate_brick", {
 	sounds = default.node_sound_stone_defaults()
 })
 
+default.register_fence("fdecor:french_fries", {
+	description = "French Fries",
+	texture = "fdecor_french_fries.png",
+	inventory_image = "fdecor_french_fries_inv.png",
+	wield_image = "fdecor_french_fries_inv.png",
+	material = "fdecor:potato",
+	groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3}
+})
+
 beds.register_bed("fdecor:banana_bed", {
 	description = "Banana Bed",
 	inventory_image = "fdecor_banana_bed_inv.png",
@@ -705,6 +714,7 @@ else
 end
 
 if minetest.get_modpath("furniture") then
+	furniture.register_wooden("fdecor:french_fries", {groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3}, stick = "fdecor:french_fries"})
 	furniture.register_stone("fdecor:blue_cheese", {})
 	furniture.register_stone("fdecor:marble_cheese", {})
 	furniture.register_stone("fdecor:white_cheese", {})
