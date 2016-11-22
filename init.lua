@@ -158,6 +158,20 @@ minetest.register_node("fdecor:carrot_leaves", {
 	sounds = default.node_sound_leaves_defaults()
 })
 
+minetest.register_node("fdecor:broccoli_sapling", {
+	description = "Broccoli Sapling",
+	drawtype = "plantlike",
+	paramtype = "light",
+	tiles = {"fdecor_broccoli_sapling.png"},
+	selection_box = {
+		type = "fixed",
+		fixed = {{-0.3125, -0.5, -0.3125, 0.3125, 0.375, 0.3125}}
+	},
+	groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3, snappy = 3},
+	sounds = default.node_sound_defaults(),
+	walkable = false
+})
+
 minetest.register_node("fdecor:broccoli_stalk", {
 	description = "Broccoli Stalk Block",
 	drawtype = "normal",
@@ -173,7 +187,28 @@ minetest.register_node("fdecor:broccoli_flower", {
 	drawtype = "normal",
 	tiles = {"fdecor_broccoli_flower.png"},
 	groups = {food = 1, oddly_breakable_by_hand = 2, choppy = 3, snappy = 3},
+	drop = {
+		max_items = 1,
+		items = {
+			{items = {"fdecor:broccoli_sapling"}, rarity = 12},
+			{items = {"fdecor:broccoli_flower"}}
+		}
+	},
 	sounds = default.node_sound_defaults()
+})
+
+minetest.register_node("fdecor:cauliflower_sapling", {
+	description = "Cauliflower Sapling",
+	drawtype = "plantlike",
+	paramtype = "light",
+	tiles = {"fdecor_cauliflower_sapling.png"},
+	selection_box = {
+		type = "fixed",
+		fixed = {{-0.3125, -0.5, -0.3125, 0.3125, 0.375, 0.3125}}
+	},
+	groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3, snappy = 3},
+	sounds = default.node_sound_defaults(),
+	walkable = false
 })
 
 minetest.register_node("fdecor:cauliflower_stalk", {
@@ -191,6 +226,13 @@ minetest.register_node("fdecor:cauliflower_flower", {
 	drawtype = "normal",
 	tiles = {"fdecor_cauliflower_flower.png"},
 	groups = {food = 1, oddly_breakable_by_hand = 2, choppy = 3, snappy = 3},
+	drop = {
+		max_items = 1,
+		items = {
+			{items = {"fdecor:cauliflower_sapling"}, rarity = 12},
+			{items = {"fdecor:cauliflower_flower"}}
+		}
+	},
 	sounds = default.node_sound_defaults()
 })
 
@@ -713,6 +755,11 @@ else
 			{"fdecor_white_chocolate_brick.png"}, "White Chocolate Brick Stairs", "White Chocolate Brick Slab", default.node_sound_stone_defaults())
 end
 
+if minetest.get_modpath("flowerpots") then
+	flowerpots.addplantlike("broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png", {-0.3125, -0.5, -0.3125, 0.3125, 0.6875, 0.3125})
+	flowerpots.addplantlike("cauliflower", "Cauliflower", "fdecor:cauliflower_sapling", "fdecor_cauliflower_sapling.png", {-0.3125, -0.5, -0.3125, 0.3125, 0.6875, 0.3125})
+end
+
 if minetest.get_modpath("furniture") then
 	furniture.register_wooden("fdecor:french_fries", {groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3}, stick = "fdecor:french_fries"})
 	furniture.register_stone("fdecor:blue_cheese", {})
@@ -762,6 +809,32 @@ if minetest.get_modpath("csh") then
 	csh.from_node("fdecor:dark_chocolate_brick")
 	csh.from_node("fdecor:white_chocolate_brick")
 end
+
+minetest.register_abm({
+	nodenames = {"fdecor:broccoli_sapling"},
+	interval = 10,
+	chance = 50,
+	action = function(pos, node)
+		if default.can_grow(pos) then
+			minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, minetest.get_modpath("fdecor").."/schematics/broccoli.mts", "0", nil, false)
+		end
+	end
+})
+
+minetest.register_abm({
+	nodenames = {"fdecor:cauliflower_sapling"},
+	interval = 10,
+	chance = 50,
+	action = function(pos, node)
+		if default.can_grow(pos) then
+			if math.random(25) == 1 then
+				minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, minetest.get_modpath("fdecor").."/schematics/purple_cauliflower.mts", "0", nil, false)
+			else
+				minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, minetest.get_modpath("fdecor").."/schematics/cauliflower.mts", "0", nil, false)
+			end
+		end
+	end
+})
 
 minetest.register_craft({
 	type = "shapeless",

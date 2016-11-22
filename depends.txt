@@ -8,6 +8,7 @@ crops?
 csh?
 farming?
 flowers?
+flowerpots?
 furniture?
 moreblocks?
 moreshelves?
