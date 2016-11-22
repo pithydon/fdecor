@@ -168,6 +168,7 @@ minetest.register_node("fdecor:broccoli_sapling", {
 		fixed = {{-0.3125, -0.5, -0.3125, 0.3125, 0.375, 0.3125}}
 	},
 	groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3, snappy = 3},
+	on_use = minetest.item_eat(2),
 	sounds = default.node_sound_defaults(),
 	walkable = false
 })
@@ -207,6 +208,7 @@ minetest.register_node("fdecor:cauliflower_sapling", {
 		fixed = {{-0.3125, -0.5, -0.3125, 0.3125, 0.375, 0.3125}}
 	},
 	groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3, snappy = 3},
+	on_use = minetest.item_eat(2),
 	sounds = default.node_sound_defaults(),
 	walkable = false
 })
@@ -816,6 +818,7 @@ minetest.register_abm({
 	chance = 50,
 	action = function(pos, node)
 		if default.can_grow(pos) then
+			minetest.log("action", "A broccoli sapling grows into a broccoli tree at "..minetest.pos_to_string(pos))
 			minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, minetest.get_modpath("fdecor").."/schematics/broccoli.mts", "0", nil, false)
 		end
 	end
@@ -827,6 +830,7 @@ minetest.register_abm({
 	chance = 50,
 	action = function(pos, node)
 		if default.can_grow(pos) then
+			minetest.log("action", "A cauliflower sapling grows into a cauliflower tree at "..minetest.pos_to_string(pos))
 			if math.random(25) == 1 then
 				minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, minetest.get_modpath("fdecor").."/schematics/purple_cauliflower.mts", "0", nil, false)
 			else
