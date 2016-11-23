@@ -1,3 +1,12 @@
+-- index {
+--  legacy code
+--  register nodes
+--  ABMs
+--  register crafts
+--  mapgen
+-- }
+
+-- legacy code
 minetest.register_node("fdecor:food_shelf", {
 	description = "Food Shelf",
 	tiles = {"fdecor_food_shelf_old.png"},
@@ -58,6 +67,7 @@ if minetest.get_modpath("moreshelves") then
 	})
 end
 
+-- register nodes
 minetest.register_node("fdecor:apple", {
 	description = "Apple Block",
 	drawtype = "normal",
@@ -812,6 +822,7 @@ if minetest.get_modpath("csh") then
 	csh.from_node("fdecor:white_chocolate_brick")
 end
 
+-- ABMs
 minetest.register_abm({
 	nodenames = {"fdecor:broccoli_sapling"},
 	interval = 10,
@@ -840,6 +851,7 @@ minetest.register_abm({
 	end
 })
 
+-- register crafts
 minetest.register_craft({
 	type = "shapeless",
 	output = "fdecor:apple_sauce",
@@ -1110,4 +1122,41 @@ if minetest.get_modpath("moretrees") then
 		output = "moretrees:coconut 9",
 		recipe = {"fdecor:coconut"}
 	})
+end
+
+-- mapgen
+if minetest.setting_getbool("enable_fdecor_mapgen") == true then
+	local mg_params = minetest.get_mapgen_params()
+	if mg_params.mgname ~= "v6" and mg_params.mgname ~= "singlenode" then
+		minetest.register_biome({
+			name = "broccoli_forest",
+			node_top = "default:dirt_with_grass",
+			depth_top = 1,
+			node_filler = "default:dirt",
+			depth_filler = 3,
+			y_min = 1,
+			y_max = 31000,
+			heat_point = 70,
+			humidity_point = 40,
+		})
+
+		minetest.register_decoration({
+			deco_type = "schematic",
+			place_on = {"default:dirt_with_grass"},
+			sidelen = 16,
+			noise_params = {
+				offset = 0,
+				scale = 0.022,
+				spread = {x = 250, y = 250, z = 250},
+				seed = 418,
+				octaves = 2,
+				persist = 0.6
+			},
+			biomes = {"broccoli_forest"},
+			y_min = 1,
+			y_max = 31000,
+			schematic = minetest.get_modpath("fdecor").."/schematics/mapgen_broccoli.mts",
+			flags = "place_center_x, place_center_z",
+		})
+	end
 end

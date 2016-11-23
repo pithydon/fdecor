@@ -38,6 +38,8 @@ For these and/or other purposes and motivations, and without any expectation of 
 	d.	Affirmer understands and acknowledges that Creative Commons is not a party to this document and has no duty or obligation with respect to this CC0 or use of the Work.
 ```
 
+If you would like to beta test the broccoli biome set enable_fdecor_mapgen = true in your minetest.conf
+
 Source code for the schematics can be found at https://github.com/pithydon/saveschems_fdecor
 
 [falling_nodes]: https://github.com/pithydon/falling_nodes
