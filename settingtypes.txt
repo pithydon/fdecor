@@ -1,0 +1,1 @@
+enable_fdecor_mapgen (Beta broccoli forest) bool false
