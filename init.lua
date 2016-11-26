@@ -1,3 +1,5 @@
+local modpath = minetest.get_modpath("fdecor")
+
 -- index {
 --  legacy code
 --  register nodes
@@ -628,7 +630,7 @@ stairs.register_stair("bread", "fdecor:bread", {food = 1, oddly_breakable_by_han
 		{"fdecor_bread_stair.png", "fdecor_bread_bottom.png", "fdecor_bread_side.png", "fdecor_bread_side.png", "fdecor_bread_slice.png"},
 		"Bread Stair", default.node_sound_defaults())
 
-if minetest.get_modpath("moreblocks") then
+if stairsplus then
 	stairsplus:register_all("stairs", "peanut_butter", "fdecor:peanut_butter", {
 		description = "Peanut Butter",
 		tiles = {"fdecor_peanut_butter.png"},
@@ -767,12 +769,12 @@ else
 			{"fdecor_white_chocolate_brick.png"}, "White Chocolate Brick Stairs", "White Chocolate Brick Slab", default.node_sound_stone_defaults())
 end
 
-if minetest.get_modpath("flowerpots") then
+if flowerpots then
 	flowerpots.addplantlike("broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png", {-0.3125, -0.5, -0.3125, 0.3125, 0.6875, 0.3125})
 	flowerpots.addplantlike("cauliflower", "Cauliflower", "fdecor:cauliflower_sapling", "fdecor_cauliflower_sapling.png", {-0.3125, -0.5, -0.3125, 0.3125, 0.6875, 0.3125})
 end
 
-if minetest.get_modpath("furniture") then
+if furniture then
 	furniture.register_wooden("fdecor:french_fries", {groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3}, stick = "fdecor:french_fries"})
 	furniture.register_stone("fdecor:blue_cheese", {})
 	furniture.register_stone("fdecor:marble_cheese", {})
@@ -802,7 +804,7 @@ if minetest.get_modpath("furniture") then
 	})
 end
 
-if minetest.get_modpath("csh") then
+if csh then
 	csh.from_node("fdecor:banana")
 	csh.from_node("fdecor:red_banana")
 	csh.from_node("fdecor:carrot")
@@ -830,7 +832,7 @@ minetest.register_abm({
 	action = function(pos, node)
 		if default.can_grow(pos) then
 			minetest.log("action", "A broccoli sapling grows into a broccoli tree at "..minetest.pos_to_string(pos))
-			minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, minetest.get_modpath("fdecor").."/schematics/broccoli.mts", "0", nil, false)
+			minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, modpath.."/schematics/broccoli.mts", "0", nil, false)
 		end
 	end
 })
@@ -843,9 +845,9 @@ minetest.register_abm({
 		if default.can_grow(pos) then
 			minetest.log("action", "A cauliflower sapling grows into a cauliflower tree at "..minetest.pos_to_string(pos))
 			if math.random(25) == 1 then
-				minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, minetest.get_modpath("fdecor").."/schematics/purple_cauliflower.mts", "0", nil, false)
+				minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, modpath.."/schematics/purple_cauliflower.mts", "0", nil, false)
 			else
-				minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, minetest.get_modpath("fdecor").."/schematics/cauliflower.mts", "0", nil, false)
+				minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1}, modpath.."/schematics/cauliflower.mts", "0", nil, false)
 			end
 		end
 	end
@@ -1045,7 +1047,7 @@ if minetest.get_modpath("crops") then
 	})
 end
 
-if minetest.get_modpath("farming") and farming.mod == "redo" then
+if farming.mod == "redo" then
 	minetest.register_craft({
 		output = "fdecor:carrot",
 		recipe = {
@@ -1155,7 +1157,7 @@ if minetest.setting_getbool("enable_fdecor_mapgen") == true then
 			biomes = {"broccoli_forest"},
 			y_min = 1,
 			y_max = 31000,
-			schematic = minetest.get_modpath("fdecor").."/schematics/mapgen_broccoli.mts",
+			schematic = modpath.."/schematics/mapgen_broccoli.mts",
 			flags = "place_center_x, place_center_z",
 		})
 	end

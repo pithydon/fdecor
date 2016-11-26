@@ -1,15 +1,15 @@
 beds
 default
 doors
+farming
 stairs
 walls
 xpanes
 crops?
 csh?
-farming?
-flowers?
 flowerpots?
 furniture?
 moreblocks?
 moreshelves?
 moretrees?
+stairsplus?
