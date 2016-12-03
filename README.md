@@ -4,7 +4,7 @@ Food themed decoration mod.
 
 Recommended mods: [falling_nodes]
 
-Forum: https://forum.minetest.net/viewtopic.php?f=11&t=15642
+Forum: https://forum.minetest.net/viewtopic.php?t=15642
 
 Github: https://github.com/pithydon/fdecor
 

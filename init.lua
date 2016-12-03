@@ -545,6 +545,16 @@ doors.register_door("fdecor:milk_chocolate_door", {
 	protected = false
 })
 
+doors.register_trapdoor("fdecor:milk_chocolate_trapdoor", {
+	description = "Milk Chocolate Trapdoor",
+	inventory_image = "fdecor_milk_chocolate_trapdoor.png",
+	tile_front = "fdecor_milk_chocolate_trapdoor.png",
+	tile_side = "fdecor_milk_chocolate.png",
+	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+	sounds = default.node_sound_stone_defaults(),
+	protected = false
+})
+
 doors.register_door("fdecor:dark_chocolate_door", {
 	description = "Dark Chocolate Door",
 	inventory_image = "fdecor_dark_chocolate_door_inv.png",
@@ -559,6 +569,16 @@ doors.register_door("fdecor:dark_chocolate_door", {
 	protected = false
 })
 
+doors.register_trapdoor("fdecor:dark_chocolate_trapdoor", {
+	description = "Dark Chocolate Trapdoor",
+	inventory_image = "fdecor_dark_chocolate_trapdoor.png",
+	tile_front = "fdecor_dark_chocolate_trapdoor.png",
+	tile_side = "fdecor_dark_chocolate.png",
+	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+	sounds = default.node_sound_stone_defaults(),
+	protected = false
+})
+
 doors.register_door("fdecor:white_chocolate_door", {
 	description = "White Chocolate Door",
 	inventory_image = "fdecor_white_chocolate_door_inv.png",
@@ -568,6 +588,16 @@ doors.register_door("fdecor:white_chocolate_door", {
 		{"fdecor:white_chocolate", "fdecor:white_chocolate"},
 		{"fdecor:white_chocolate", "fdecor:white_chocolate"}
 	},
+	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+	sounds = default.node_sound_stone_defaults(),
+	protected = false
+})
+
+doors.register_trapdoor("fdecor:white_chocolate_trapdoor", {
+	description = "White Chocolate Trapdoor",
+	inventory_image = "fdecor_white_chocolate_trapdoor.png",
+	tile_front = "fdecor_white_chocolate_trapdoor.png",
+	tile_side = "fdecor_white_chocolate.png",
 	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
 	sounds = default.node_sound_stone_defaults(),
 	protected = false
@@ -769,12 +799,14 @@ else
 			{"fdecor_white_chocolate_brick.png"}, "White Chocolate Brick Stairs", "White Chocolate Brick Slab", default.node_sound_stone_defaults())
 end
 
-if flowerpots then
-	flowerpots.addplantlike("broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png", {-0.3125, -0.5, -0.3125, 0.3125, 0.6875, 0.3125})
-	flowerpots.addplantlike("cauliflower", "Cauliflower", "fdecor:cauliflower_sapling", "fdecor_cauliflower_sapling.png", {-0.3125, -0.5, -0.3125, 0.3125, 0.6875, 0.3125})
+if minetest.get_modpath("flowerpots") then
+	flowerpots.addplantlike("broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png")
+	flowerpots.addplantlike("cauliflower", "Cauliflower", "fdecor:cauliflower_sapling", "fdecor_cauliflower_sapling.png")
+	flowerpots.addplantblock("potato", "Potato", "fdecor:potato", "fdecor_potato.png")
+	flowerpots.addplantblock("mushroom_stipe", "Mushroom Stipe", "fdecor:mushroom_stipe", "fdecor_mushroom_stipe.png")
 end
 
-if furniture then
+if minetest.get_modpath("furniture") then
 	furniture.register_wooden("fdecor:french_fries", {groups = {food = 1, oddly_breakable_by_hand = 3, choppy = 3}, stick = "fdecor:french_fries"})
 	furniture.register_stone("fdecor:blue_cheese", {})
 	furniture.register_stone("fdecor:marble_cheese", {})
@@ -804,7 +836,7 @@ if furniture then
 	})
 end
 
-if csh then
+if minetest.get_modpath("csh") then
 	csh.from_node("fdecor:banana")
 	csh.from_node("fdecor:red_banana")
 	csh.from_node("fdecor:carrot")
