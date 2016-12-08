@@ -660,7 +660,7 @@ stairs.register_stair("bread", "fdecor:bread", {food = 1, oddly_breakable_by_han
 		{"fdecor_bread_stair.png", "fdecor_bread_bottom.png", "fdecor_bread_side.png", "fdecor_bread_side.png", "fdecor_bread_slice.png"},
 		"Bread Stair", default.node_sound_defaults())
 
-if stairsplus then
+if minetest.global_exists("stairsplus") then
 	stairsplus:register_all("stairs", "peanut_butter", "fdecor:peanut_butter", {
 		description = "Peanut Butter",
 		tiles = {"fdecor_peanut_butter.png"},
@@ -800,10 +800,10 @@ else
 end
 
 if minetest.get_modpath("flowerpots") then
-	flowerpots.addplantlike("broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png")
-	flowerpots.addplantlike("cauliflower", "Cauliflower", "fdecor:cauliflower_sapling", "fdecor_cauliflower_sapling.png")
-	flowerpots.addplantblock("potato", "Potato", "fdecor:potato", "fdecor_potato.png")
-	flowerpots.addplantblock("mushroom_stipe", "Mushroom Stipe", "fdecor:mushroom_stipe", "fdecor_mushroom_stipe.png")
+	flowerpots.add_plant(1, "broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png")
+	flowerpots.add_plant(1, "cauliflower", "Cauliflower", "fdecor:cauliflower_sapling", "fdecor_cauliflower_sapling.png")
+	flowerpots.add_plant(7, "potato", "Potato", "fdecor:potato", "fdecor_potato.png")
+	flowerpots.add_plant(7, "mushroom_stipe", "Mushroom Stipe", "fdecor:mushroom_stipe", "fdecor_mushroom_stipe.png")
 end
 
 if minetest.get_modpath("furniture") then
@@ -1159,9 +1159,27 @@ if minetest.get_modpath("moretrees") then
 end
 
 -- mapgen
-if minetest.setting_getbool("enable_fdecor_mapgen") == true then
+if minetest.setting_getbool("enable_fdecor_biomes") ~= false then
 	local mg_params = minetest.get_mapgen_params()
-	if mg_params.mgname ~= "v6" and mg_params.mgname ~= "singlenode" then
+	if mg_params.mgname == "v6" then
+		minetest.register_decoration({
+			deco_type = "schematic",
+			place_on = {"default:dirt_with_grass"},
+			sidelen = 16,
+			noise_params = {
+				offset = -0.02,
+				scale = 0.021,
+				spread = {x = 800, y = 800, z = 800},
+				seed = 418,
+				octaves = 2,
+				persist = 0.6
+			},
+			y_min = 1,
+			y_max = 31000,
+			schematic = modpath.."/schematics/mapgen_broccoli.mts",
+			flags = "place_center_x, place_center_z"
+		})
+	elseif mg_params.mgname ~= "singlenode" then
 		minetest.register_biome({
 			name = "broccoli_forest",
 			node_top = "default:dirt_with_grass",
@@ -1171,7 +1189,7 @@ if minetest.setting_getbool("enable_fdecor_mapgen") == true then
 			y_min = 1,
 			y_max = 31000,
 			heat_point = 70,
-			humidity_point = 40,
+			humidity_point = 40
 		})
 
 		minetest.register_decoration({
@@ -1190,7 +1208,146 @@ if minetest.setting_getbool("enable_fdecor_mapgen") == true then
 			y_min = 1,
 			y_max = 31000,
 			schematic = modpath.."/schematics/mapgen_broccoli.mts",
-			flags = "place_center_x, place_center_z",
+			flags = "place_center_x, place_center_z"
 		})
+
+		minetest.register_decoration({
+			deco_type = "schematic",
+			place_on = {"default:dirt_with_grass"},
+			sidelen = 16,
+			noise_params = {
+				offset = -0.02,
+				scale = 0.02,
+				spread = {x = 600, y = 600, z = 600},
+				seed = 418,
+				octaves = 2,
+				persist = 0.6
+			},
+			biomes = {"broccoli_forest"},
+			y_min = 1,
+			y_max = 31000,
+			schematic = modpath.."/schematics/mapgen_cauliflower.mts",
+			flags = "place_center_x, place_center_z"
+		})
+
+		minetest.register_decoration({
+			deco_type = "schematic",
+			place_on = {"default:dirt_with_grass"},
+			sidelen = 16,
+			noise_params = {
+				offset = -0.0001,
+				scale = 0.0011,
+				spread = {x = 250, y = 250, z = 250},
+				seed = 2,
+				octaves = 3,
+				persist = 0.66
+			},
+			biomes = {"broccoli_forest"},
+			y_min = 1,
+			y_max = 31000,
+			schematic = {
+				size = {x = 3, y = 2, z = 1},
+				data = {
+					{name = "air", prob = 0},
+					{name = "air", prob = 0},
+					{name = "air", prob = 0},
+					{name = "fdecor:carrot", param2 = 12, prob = 127},
+					{name = "fdecor:carrot", param2 = 12},
+					{name = "fdecor:carrot", param2 = 12, prob = 63}
+				}
+			},
+			flags = "place_center_x",
+			rotation = "random"
+		})
+
+		minetest.register_decoration({
+			deco_type = "schematic",
+			place_on = {"default:dirt_with_grass"},
+			sidelen = 16,
+			noise_params = {
+				offset = 0.0007,
+				scale = 0.0011,
+				spread = {x = 250, y = 250, z = 250},
+				seed = 2,
+				octaves = 3,
+				persist = 0.66
+			},
+			biomes = {"broccoli_forest"},
+			y_min = 1,
+			y_max = 31000,
+			schematic = {
+				size = {x = 3, y = 2, z = 1},
+				data = {
+					{name = "air", prob = 0},
+					{name = "air", prob = 0},
+					{name = "air", prob = 0},
+					{name = "fdecor:celery", param2 = 13, prob = 191},
+					{name = "fdecor:celery", param2 = 13},
+					{name = "fdecor:celery", param2 = 13, prob = 127}
+				}
+			},
+			flags = "place_center_x",
+			rotation = "random"
+		})
+
+		minetest.register_decoration({
+			deco_type = "schematic",
+			place_on = {"default:dirt_with_grass"},
+			sidelen = 16,
+			noise_params = {
+				offset = -0.075,
+				scale = 0.1,
+				spread = {x = 250, y = 250, z = 250},
+				seed = 329,
+				octaves = 3,
+				persist = 0.6
+			},
+			biomes = {"broccoli_forest"},
+			y_min = 1,
+			y_max = 31000,
+			schematic = {
+				size = {x = 1, y = 5, z = 1},
+				data = {
+					{name = "fdecor:carrot", prob = 255, force_place = true},
+					{name = "fdecor:carrot", prob = 255, force_place = true},
+					{name = "fdecor:carrot", prob = 255, force_place = true},
+					{name = "fdecor:carrot_leaves"},
+					{name = "air", prob = 0}
+				}
+			},
+			flags = "place_center_y"
+		})
+
+		minetest.register_ore({
+			ore_type = "scatter",
+			ore = "fdecor:potato",
+			wherein = "default:dirt",
+			clust_scarcity = 768,
+			clust_num_ores = 8,
+			clust_size = 3,
+			y_min = 1,
+			y_max = 31000,
+			biomes = {"broccoli_forest"}
+		})
+
+		for _,v in ipairs({{-0.03,0.09,5},{-0.015,0.075,4},{0,0.06,3},{0.015,0.045,2},{0.03,0.03,1}}) do
+			minetest.register_decoration({
+				deco_type = "simple",
+				place_on = {"default:dirt_with_grass"},
+				sidelen = 16,
+				noise_params = {
+					offset = v[1],
+					scale = v[2],
+					spread = {x = 200, y = 200, z = 200},
+					seed = 329,
+					octaves = 3,
+					persist = 0.6
+				},
+				biomes = {"broccoli_forest"},
+				y_min = 1,
+				y_max = 31000,
+				decoration = "default:grass_"..v[3]
+			})
+		end
 	end
 end
