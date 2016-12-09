@@ -1,12 +1,25 @@
+fdecor = {}
 local modpath = minetest.get_modpath("fdecor")
 
 -- index {
+--  sound
 --  legacy code
 --  register nodes
 --  ABMs
 --  register crafts
 --  mapgen
 -- }
+
+-- sound
+function fdecor.node_sound_crunchy_defaults(table)
+	table = table or {}
+	table.footstep = table.footstep or
+			{name = "default_wood_footstep", gain = 0.5}
+	table.dug = table.dug or
+			{name = "fdecor_crunch", gain = 0.5}
+	default.node_sound_defaults(table)
+	return table
+end
 
 -- legacy code
 minetest.register_node("fdecor:food_shelf", {
@@ -75,7 +88,7 @@ minetest.register_node("fdecor:apple", {
 	drawtype = "normal",
 	tiles = {"fdecor_apple_top.png", "fdecor_apple_bottom.png", "fdecor_apple_side.png"},
 	groups = {food = 1, oddly_breakable_by_hand = 2, choppy = 3, falling_hanging_node = 1},
-	sounds = default.node_sound_defaults()
+	sounds = fdecor.node_sound_crunchy_defaults()
 })
 
 minetest.register_node("fdecor:apple_sauce", {
@@ -155,7 +168,7 @@ minetest.register_node("fdecor:carrot", {
 	tiles = {"fdecor_carrot_top.png", "fdecor_carrot_top.png", "fdecor_carrot_side.png"},
 	groups = {food = 1, oddly_breakable_by_hand = 1, choppy = 2},
 	on_place = minetest.rotate_node,
-	sounds = default.node_sound_wood_defaults()
+	sounds = fdecor.node_sound_crunchy_defaults()
 })
 
 minetest.register_node("fdecor:carrot_leaves", {
@@ -274,7 +287,7 @@ minetest.register_node("fdecor:celery", {
 	tiles = {"fdecor_celery_top.png", "fdecor_celery_top.png^[transformFY", "fdecor_celery_side.png"},
 	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 1, choppy = 3},
 	on_place = minetest.rotate_node,
-	sounds = default.node_sound_defaults()
+	sounds = fdecor.node_sound_crunchy_defaults()
 })
 
 minetest.register_node("fdecor:celery_with_peanut_butter", {
@@ -285,7 +298,7 @@ minetest.register_node("fdecor:celery_with_peanut_butter", {
 			"fdecor_celery_with_peanut_butter_side.png", "fdecor_celery_side.png", "fdecor_peanut_butter.png"},
 	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 1, choppy = 3},
 	on_place = minetest.rotate_node,
-	sounds = default.node_sound_defaults()
+	sounds = fdecor.node_sound_crunchy_defaults()
 })
 
 minetest.register_node("fdecor:rhubarb", {
@@ -304,7 +317,7 @@ minetest.register_node("fdecor:rhubarb", {
 	tiles = {"fdecor_rhubarb_top.png", "fdecor_rhubarb_top.png^[transformFY", "fdecor_rhubarb_side.png"},
 	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 1, choppy = 3},
 	on_place = minetest.rotate_node,
-	sounds = default.node_sound_defaults()
+	sounds = fdecor.node_sound_crunchy_defaults()
 })
 
 minetest.register_node("fdecor:peanut_butter", {

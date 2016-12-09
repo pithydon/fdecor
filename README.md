@@ -38,6 +38,12 @@ For these and/or other purposes and motivations, and without any expectation of 
 	d.	Affirmer understands and acknowledges that Creative Commons is not a party to this document and has no duty or obligation with respect to this CC0 or use of the Work.
 ```
 
+sounds
+
+* fdecor.node_sound_crunchy_defaults()
+
+fdecor_chop.ogg is from https://www.freesound.org/people/j1987/sounds/106392/
+
 Source code for the schematics can be found at https://github.com/pithydon/saveschems_fdecor
 
 [falling_nodes]: https://github.com/pithydon/falling_nodes
