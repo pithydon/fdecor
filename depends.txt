@@ -1,7 +1,6 @@
 beds
 default
 doors
-farming
 stairs
 walls
 xpanes
@@ -10,6 +9,4 @@ csh?
 flowerpots?
 furniture?
 moreblocks?
-moreshelves?
 moretrees?
-stairsplus?

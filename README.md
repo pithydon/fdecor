@@ -1,12 +1,8 @@
-fdecor by pithydon (2016)
+fdecor
 
 Food themed decoration mod.
 
 Recommended mods: [falling_nodes]
-
-Forum: https://forum.minetest.net/viewtopic.php?t=15642
-
-Github: https://github.com/pithydon/fdecor
 
 License for all of this mod is "CC0", see below.
 

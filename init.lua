@@ -1,9 +1,11 @@
 fdecor = {}
+local creative = minetest.setting_getbool("creative_mode")
 local modpath = minetest.get_modpath("fdecor")
+local crops_path = minetest.get_modpath("crops")
+local moreblocks_path = minetest.get_modpath("moreblocks")
 
 -- index {
 --  sound
---  legacy code
 --  register nodes
 --  ABMs
 --  register crafts
@@ -21,68 +23,99 @@ function fdecor.node_sound_crunchy_defaults(table)
 	return table
 end
 
--- legacy code
-minetest.register_node("fdecor:food_shelf", {
-	description = "Food Shelf",
-	tiles = {"fdecor_food_shelf_old.png"},
-	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, not_in_creative_inventory = 1},
-	sounds = default.node_sound_wood_defaults(),
-	allow_metadata_inventory_put = function(pos, listname, index, stack)
-		return 0
-	end,
-	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		minetest.log("action", player:get_player_name().." moves stuff in food shelf at "..minetest.pos_to_string(pos))
-	end,
-	on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name().." takes stuff from food shelf at "..minetest.pos_to_string(pos))
-	end,
-	on_blast = function(pos)
-		local drops = {}
-		default.get_inventory_drops(pos, "food", drops)
-		drops[#drops+1] = "fdecor:food_shelf"
-		minetest.remove_node(pos)
-		return drops
+-- register nodes
+for _,v in ipairs({{"blue", "Blue"}, {"marble", "Marble"}, {"white", "White"}, {"swiss", "Swiss"}, {"cheddar", "Cheddar"}}) do
+	minetest.register_node("fdecor:"..v[1].."_cheese", {
+		description = v[2].." Cheese Block",
+		drawtype = "normal",
+		tiles = {"fdecor_"..v[1].."_cheese.png"},
+		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
+		sounds = default.node_sound_defaults()
+	})
+
+	walls.register("fdecor:"..v[1].."_cheese_wall", v[2].." Cheese Wall", "fdecor_"..v[1].."_cheese.png",
+			"fdecor:"..v[1].."_cheese", default.node_sound_defaults())
+
+	if moreblocks_path then
+		stairsplus:register_all("stairs", v[1].."_cheese", "fdecor:"..v[1].."_cheese", {
+			description = v[2].." Cheese",
+			tiles = {"fdecor_"..v[1].."_cheese.png"},
+			groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
+			sounds = default.node_sound_defaults()
+		})
+	else
+		stairs.register_stair_and_slab(v[1].."_cheese", "fdecor:"..v[1].."_cheese", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
+				{"fdecor_"..v[1].."_cheese.png"}, v[2].." Cheese Stairs", v[2].." Cheese Slab", default.node_sound_defaults())
 	end
-})
-
-if minetest.get_modpath("moreshelves") then
-	minetest.override_item("fdecor:food_shelf", {
-		after_place_node = function(pos, placer, itemstack, pointed_thing)
-			minetest.remove_node(pos)
-			minetest.place_node(pos, {name = "moreshelves:food_shelf"})
-		end
-	})
-
-	local add_items = function(pos, drops)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		for _,v in ipairs(drops) do
-			inv:add_item("shelf", v)
-		end
-	end
-
-	minetest.register_lbm({
-		name = "fdecor:replace_old_shelves",
-		nodenames = {"fdecor:food_shelf"},
-		run_at_every_load = true,
-		action = function(pos, node)
-			local drops = {}
-			default.get_inventory_drops(pos, "food", drops)
-			minetest.remove_node(pos)
-			minetest.place_node(pos, {name = "moreshelves:food_shelf"})
-			minetest.after(0.01, add_items, pos, drops)
-		end
-	})
-
-	minetest.register_craft({
-		type = "shapeless",
-		output = "moreshelves:food_shelf",
-		recipe = {"fdecor:food_shelf"}
-	})
 end
 
--- register nodes
+for _,v in ipairs({{"milk", "Milk"}, {"dark", "Dark"}, {"white", "White"}}) do
+	minetest.register_node("fdecor:"..v[1].."_chocolate", {
+		description = v[2].." Chocolate Block",
+		drawtype = "normal",
+		tiles = {"fdecor_"..v[1].."_chocolate.png"},
+		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+		sounds = default.node_sound_stone_defaults()
+	})
+
+	minetest.register_node("fdecor:"..v[1].."_chocolate_brick", {
+		description = v[2].." Chocolate Brick",
+		drawtype = "normal",
+		tiles = {"fdecor_"..v[1].."_chocolate_brick.png"},
+		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+		sounds = default.node_sound_stone_defaults()
+	})
+
+	doors.register_door("fdecor:"..v[1].."_chocolate_door", {
+		description = v[2].." Chocolate Door",
+		inventory_image = "fdecor_"..v[1].."_chocolate_door_inv.png",
+		tiles = {"fdecor_"..v[1].."_chocolate_door.png"},
+		recipe = {
+			{"fdecor:"..v[1].."_chocolate", "fdecor:"..v[1].."_chocolate"},
+			{"fdecor:"..v[1].."_chocolate", "fdecor:"..v[1].."_chocolate"},
+			{"fdecor:"..v[1].."_chocolate", "fdecor:"..v[1].."_chocolate"}
+		},
+		groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+		sounds = default.node_sound_stone_defaults(),
+		protected = false
+	})
+
+	doors.register_trapdoor("fdecor:"..v[1].."_chocolate_trapdoor", {
+		description = v[2].." Chocolate Trapdoor",
+		inventory_image = "fdecor_"..v[1].."_chocolate_trapdoor.png",
+		tile_front = "fdecor_"..v[1].."_chocolate_trapdoor.png",
+		tile_side = "fdecor_"..v[1].."_chocolate.png",
+		groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+		sounds = default.node_sound_stone_defaults(),
+		protected = false
+	})
+
+	walls.register("fdecor:"..v[1].."_chocolate_wall", v[2].." Chocolate Wall", "fdecor_"..v[1].."_chocolate.png",
+			"fdecor:"..v[1].."_chocolate", default.node_sound_stone_defaults())
+
+	if moreblocks_path then
+		stairsplus:register_all("stairs", v[1].."_chocolate", "fdecor:"..v[1].."_chocolate", {
+			description = v[2].." Chocolate",
+			tiles = {"fdecor_"..v[1].."_chocolate.png"},
+			groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+			sounds = default.node_sound_stone_defaults()
+		})
+
+		stairsplus:register_all("stairs", v[1].."_chocolate_brick", "fdecor:"..v[1].."_chocolate_brick", {
+			description = v[2].." Chocolate Brick",
+			tiles = {"fdecor_"..v[1].."_chocolate_brick.png"},
+			groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+			sounds = default.node_sound_stone_defaults()
+		})
+	else
+		stairs.register_stair_and_slab(v[1].."_chocolate", "fdecor:"..v[1].."_chocolate", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+				{"fdecor_"..v[1].."_chocolate.png"}, v[2].." Chocolate Stairs", v[2].." Chocolate Slab", default.node_sound_stone_defaults())
+
+		stairs.register_stair_and_slab(v[1].."_chocolate_brick", "fdecor:"..v[1].."_chocolate_brick", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+				{"fdecor_"..v[1].."_chocolate_brick.png"}, v[2].." Chocolate Brick Stairs", v[2].." Chocolate Brick Slab", default.node_sound_stone_defaults())
+	end
+end
+
 minetest.register_node("fdecor:apple", {
 	description = "Apple Block",
 	drawtype = "normal",
@@ -96,6 +129,67 @@ minetest.register_node("fdecor:apple_sauce", {
 	drawtype = "normal",
 	tiles = {"fdecor_apple_sauce.png"},
 	groups = {food = 1, crumbly = 3, oddly_breakable_by_hand = 3, explody = 1, falling_node = 1}
+})
+
+if crops_path then
+	minetest.override_item("crops:pumpkin", {
+		tiles = {"fdecor_pumpkin_top.png", "fdecor_pumpkin_bottom.png", "fdecor_pumpkin_side.png"},
+		groups = {food = 1, snappy = 3, oddly_breakable_by_hand = 2, flammable = 3}
+	})
+
+	minetest.register_alias("fdecor:pumpkin", "crops:pumpkin")
+else
+	minetest.register_node("fdecor:pumpkin", {
+		description = "Pumpkin",
+		drawtype = "normal",
+		tiles = {"fdecor_pumpkin_top.png", "fdecor_pumpkin_bottom.png", "fdecor_pumpkin_side.png"},
+		groups = {food = 1, snappy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+		sounds = default.node_sound_wood_defaults({
+			dig = {name = "default_dig_oddly_breakable_by_hand"},
+			dug = {name = "default_dig_choppy"}
+		})
+	})
+
+	minetest.register_alias("crops:pumpkin", "fdecor:pumpkin")
+end
+
+minetest.register_node("fdecor:unlit_jackolantern", {
+	description = "Unlit Jack O Lantern",
+	drawtype = "normal",
+	paramtype2 = "facedir",
+	tiles = {"fdecor_pumpkin_top.png", "fdecor_pumpkin_bottom.png", "fdecor_pumpkin_side.png",
+			"fdecor_pumpkin_side.png", "fdecor_pumpkin_side.png", "fdecor_pumpkin_jackolantern.png"},
+	groups = {snappy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	sounds = default.node_sound_wood_defaults({
+		dig = {name = "default_dig_oddly_breakable_by_hand"},
+		dug = {name = "default_dig_choppy"}
+	}),
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local player_name = clicker:get_player_name()
+		if itemstack:get_name() == "default:torch" and not minetest.is_protected(pos, player_name) then
+			minetest.log("action", player_name.." places torch in a Jack O Lantern at "..minetest.pos_to_string(pos))
+			minetest.swap_node(pos, {name = "fdecor:jackolantern", param2 = node.param2})
+			if not creative then
+				itemstack:take_item()
+				return itemstack
+			end
+		end
+	end
+})
+
+minetest.register_node("fdecor:jackolantern", {
+	description = "Jack O Lantern",
+	drawtype = "normal",
+	paramtype2 = "facedir",
+	tiles = {"fdecor_pumpkin_top.png", "fdecor_pumpkin_bottom.png", "fdecor_pumpkin_side.png", "fdecor_pumpkin_side.png", "fdecor_pumpkin_side.png",
+			{name = "fdecor_pumpkin_jackolantern_anim.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.2}}},
+	light_source = 14,
+	drop = "fdecor:unlit_jackolantern",
+	groups = {snappy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	sounds = default.node_sound_wood_defaults({
+		dig = {name = "default_dig_oddly_breakable_by_hand"},
+		dug = {name = "default_dig_choppy"}
+	})
 })
 
 minetest.register_node("fdecor:coconut", {
@@ -393,94 +487,6 @@ minetest.register_node("fdecor:orange_mushroom", {
 	groups = {food = 1, oddly_breakable_by_hand = 3, snappy = 3}
 })
 
-minetest.register_node("fdecor:blue_cheese", {
-	description = "Blue Cheese Block",
-	drawtype = "normal",
-	tiles = {"fdecor_blue_cheese.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-	sounds = default.node_sound_defaults()
-})
-
-minetest.register_node("fdecor:cheddar_cheese", {
-	description = "Cheddar Cheese Block",
-	drawtype = "normal",
-	tiles = {"fdecor_cheddar_cheese.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-	sounds = default.node_sound_defaults()
-})
-
-minetest.register_node("fdecor:swiss_cheese", {
-	description = "Swiss Cheese Block",
-	drawtype = "normal",
-	tiles = {"fdecor_swiss_cheese.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-	sounds = default.node_sound_defaults()
-})
-
-minetest.register_node("fdecor:white_cheese", {
-	description = "White Cheese Block",
-	drawtype = "normal",
-	tiles = {"fdecor_white_cheese.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-	sounds = default.node_sound_defaults()
-})
-
-minetest.register_node("fdecor:marble_cheese", {
-	description = "Marble Cheese Block",
-	drawtype = "normal",
-	tiles = {"fdecor_marble_cheese.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-	sounds = default.node_sound_defaults()
-})
-
-minetest.register_node("fdecor:milk_chocolate", {
-	description = "Milk Chocolate Block",
-	drawtype = "normal",
-	tiles = {"fdecor_milk_chocolate.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults()
-})
-
-minetest.register_node("fdecor:dark_chocolate", {
-	description = "Dark Chocolate Block",
-	drawtype = "normal",
-	tiles = {"fdecor_dark_chocolate.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults()
-})
-
-minetest.register_node("fdecor:white_chocolate", {
-	description = "White Chocolate Block",
-	drawtype = "normal",
-	tiles = {"fdecor_white_chocolate.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults()
-})
-
-minetest.register_node("fdecor:milk_chocolate_brick", {
-	description = "Milk Chocolate Brick",
-	drawtype = "normal",
-	tiles = {"fdecor_milk_chocolate_brick.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults()
-})
-
-minetest.register_node("fdecor:dark_chocolate_brick", {
-	description = "Dark Chocolate Brick",
-	drawtype = "normal",
-	tiles = {"fdecor_dark_chocolate_brick.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults()
-})
-
-minetest.register_node("fdecor:white_chocolate_brick", {
-	description = "White Chocolate Brick",
-	drawtype = "normal",
-	tiles = {"fdecor_white_chocolate_brick.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults()
-})
-
 default.register_fence("fdecor:french_fries", {
 	description = "French Fries",
 	texture = "fdecor_french_fries.png",
@@ -544,95 +550,6 @@ beds.register_bed("fdecor:red_banana_bed", {
 	},
 })
 
-doors.register_door("fdecor:milk_chocolate_door", {
-	description = "Milk Chocolate Door",
-	inventory_image = "fdecor_milk_chocolate_door_inv.png",
-	tiles = {"fdecor_milk_chocolate_door.png"},
-	recipe = {
-		{"fdecor:milk_chocolate", "fdecor:milk_chocolate"},
-		{"fdecor:milk_chocolate", "fdecor:milk_chocolate"},
-		{"fdecor:milk_chocolate", "fdecor:milk_chocolate"}
-	},
-	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults(),
-	protected = false
-})
-
-doors.register_trapdoor("fdecor:milk_chocolate_trapdoor", {
-	description = "Milk Chocolate Trapdoor",
-	inventory_image = "fdecor_milk_chocolate_trapdoor.png",
-	tile_front = "fdecor_milk_chocolate_trapdoor.png",
-	tile_side = "fdecor_milk_chocolate.png",
-	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults(),
-	protected = false
-})
-
-doors.register_door("fdecor:dark_chocolate_door", {
-	description = "Dark Chocolate Door",
-	inventory_image = "fdecor_dark_chocolate_door_inv.png",
-	tiles = {"fdecor_dark_chocolate_door.png"},
-	recipe = {
-		{"fdecor:dark_chocolate", "fdecor:dark_chocolate"},
-		{"fdecor:dark_chocolate", "fdecor:dark_chocolate"},
-		{"fdecor:dark_chocolate", "fdecor:dark_chocolate"}
-	},
-	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults(),
-	protected = false
-})
-
-doors.register_trapdoor("fdecor:dark_chocolate_trapdoor", {
-	description = "Dark Chocolate Trapdoor",
-	inventory_image = "fdecor_dark_chocolate_trapdoor.png",
-	tile_front = "fdecor_dark_chocolate_trapdoor.png",
-	tile_side = "fdecor_dark_chocolate.png",
-	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults(),
-	protected = false
-})
-
-doors.register_door("fdecor:white_chocolate_door", {
-	description = "White Chocolate Door",
-	inventory_image = "fdecor_white_chocolate_door_inv.png",
-	tiles = {"fdecor_white_chocolate_door.png"},
-	recipe = {
-		{"fdecor:white_chocolate", "fdecor:white_chocolate"},
-		{"fdecor:white_chocolate", "fdecor:white_chocolate"},
-		{"fdecor:white_chocolate", "fdecor:white_chocolate"}
-	},
-	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults(),
-	protected = false
-})
-
-doors.register_trapdoor("fdecor:white_chocolate_trapdoor", {
-	description = "White Chocolate Trapdoor",
-	inventory_image = "fdecor_white_chocolate_trapdoor.png",
-	tile_front = "fdecor_white_chocolate_trapdoor.png",
-	tile_side = "fdecor_white_chocolate.png",
-	groups = {oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-	sounds = default.node_sound_stone_defaults(),
-	protected = false
-})
-
-walls.register("fdecor:blue_cheese_wall", "Blue Cheese Wall", "fdecor_blue_cheese.png",
-		"fdecor:blue_cheese", default.node_sound_defaults())
-walls.register("fdecor:marble_cheese_wall", "Marble Cheese Wall", "fdecor_marble_cheese.png",
-		"fdecor:marble_cheese", default.node_sound_defaults())
-walls.register("fdecor:white_cheese_wall", "White Cheese Wall", "fdecor_white_cheese.png",
-		"fdecor:white_cheese", default.node_sound_defaults())
-walls.register("fdecor:swiss_cheese_wall", "Swiss Cheese Wall", "fdecor_swiss_cheese.png",
-		"fdecor:swiss_cheese", default.node_sound_defaults())
-walls.register("fdecor:cheddar_cheese_wall", "Cheddar Cheese Wall", "fdecor_cheddar_cheese.png",
-		"fdecor:cheddar_cheese", default.node_sound_defaults())
-walls.register("fdecor:milk_chocolate_wall", "Milk Chocolate Wall", "fdecor_milk_chocolate.png",
-		"fdecor:milk_chocolate", default.node_sound_stone_defaults())
-walls.register("fdecor:dark_chocolate_wall", "Dark Chocolate Wall", "fdecor_dark_chocolate.png",
-		"fdecor:dark_chocolate", default.node_sound_stone_defaults())
-walls.register("fdecor:white_chocolate_wall", "White Chocolate Wall", "fdecor_white_chocolate.png",
-		"fdecor:white_chocolate", default.node_sound_stone_defaults())
-
 xpanes.register_pane("swiss_cheese_pane", {
 	description = "Swiss Cheese Pane",
 	textures = {"fdecor_swiss_cheese_alpha.png","fdecor_swiss_cheese_alpha.png","fdecor_swiss_cheese.png"},
@@ -673,7 +590,7 @@ stairs.register_stair("bread", "fdecor:bread", {food = 1, oddly_breakable_by_han
 		{"fdecor_bread_stair.png", "fdecor_bread_bottom.png", "fdecor_bread_side.png", "fdecor_bread_side.png", "fdecor_bread_slice.png"},
 		"Bread Stair", default.node_sound_defaults())
 
-if minetest.global_exists("stairsplus") then
+if moreblocks_path then
 	stairsplus:register_all("stairs", "peanut_butter", "fdecor:peanut_butter", {
 		description = "Peanut Butter",
 		tiles = {"fdecor_peanut_butter.png"},
@@ -691,83 +608,6 @@ if minetest.global_exists("stairsplus") then
 		tiles = {"fdecor_potato_brick.png"},
 		groups = {food = 1, oddly_breakable_by_hand = 2, choppy = 2}
 	})
-
-	stairsplus:register_all("stairs", "blue_cheese", "fdecor:blue_cheese", {
-		description = "Blue Cheese",
-		tiles = {"fdecor_blue_cheese.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-		sounds = default.node_sound_defaults()
-	})
-
-	stairsplus:register_all("stairs", "marble_cheese", "fdecor:marble_cheese", {
-		description = "Marble Cheese",
-		tiles = {"fdecor_marble_cheese.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-		sounds = default.node_sound_defaults()
-	})
-
-	stairsplus:register_all("stairs", "white_cheese", "fdecor:white_cheese", {
-		description = "White Cheese",
-		tiles = {"fdecor_white_cheese.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-		sounds = default.node_sound_defaults()
-	})
-
-	stairsplus:register_all("stairs", "swiss_cheese", "fdecor:swiss_cheese", {
-		description = "Swiss Cheese",
-		tiles = {"fdecor_swiss_cheese.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-		sounds = default.node_sound_defaults()
-	})
-
-	stairsplus:register_all("stairs", "cheddar_cheese", "fdecor:cheddar_cheese", {
-		description = "Cheddar Cheese",
-		tiles = {"fdecor_cheddar_cheese.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-		sounds = default.node_sound_defaults()
-	})
-
-	stairsplus:register_all("stairs", "milk_chocolate", "fdecor:milk_chocolate", {
-		description = "Milk Chocolate",
-		tiles = {"fdecor_milk_chocolate.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-		sounds = default.node_sound_stone_defaults()
-	})
-
-	stairsplus:register_all("stairs", "dark_chocolate", "fdecor:dark_chocolate", {
-		description = "Dark Chocolate",
-		tiles = {"fdecor_dark_chocolate.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-		sounds = default.node_sound_stone_defaults()
-	})
-
-	stairsplus:register_all("stairs", "white_chocolate", "fdecor:white_chocolate", {
-		description = "White Chocolate",
-		tiles = {"fdecor_white_chocolate.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-		sounds = default.node_sound_stone_defaults()
-	})
-
-	stairsplus:register_all("stairs", "milk_chocolate_brick", "fdecor:milk_chocolate_brick", {
-		description = "Milk Chocolate Brick",
-		tiles = {"fdecor_milk_chocolate_brick.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-		sounds = default.node_sound_stone_defaults()
-	})
-
-	stairsplus:register_all("stairs", "dark_chocolate_brick", "fdecor:dark_chocolate_brick", {
-		description = "Dark Chocolate Brick",
-		tiles = {"fdecor_dark_chocolate_brick.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-		sounds = default.node_sound_stone_defaults()
-	})
-
-	stairsplus:register_all("stairs", "white_chocolate_brick", "fdecor:white_chocolate_brick", {
-		description = "White Chocolate Brick",
-		tiles = {"fdecor_white_chocolate_brick.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-		sounds = default.node_sound_stone_defaults()
-	})
 else
 	stairs.register_stair_and_slab("peanut_butter", "fdecor:peanut_butter", {food = 1, oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1},
 			{"fdecor_peanut_butter.png"}, "Peanut Butter Stairs", "Peanut Butter Slab")
@@ -777,39 +617,6 @@ else
 
 	stairs.register_stair_and_slab("potato_brick", "fdecor:potato_brick", {food = 1, oddly_breakable_by_hand = 2, choppy = 2},
 			{"fdecor_potato_brick.png"}, "Potato Brick Stairs", "Potato Brick Slab")
-
-	stairs.register_stair_and_slab("blue_cheese", "fdecor:blue_cheese", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-			{"fdecor_blue_cheese.png"}, "Blue Cheese Stairs", "Blue Cheese Slab", default.node_sound_defaults())
-
-	stairs.register_stair_and_slab("marble_cheese", "fdecor:marble_cheese", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-			{"fdecor_marble_cheese.png"}, "Marble Cheese Stairs", "Marble Cheese Slab", default.node_sound_defaults())
-
-	stairs.register_stair_and_slab("white_cheese", "fdecor:white_cheese", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-			{"fdecor_white_cheese.png"}, "White Cheese Stairs", "White Cheese Slab", default.node_sound_defaults())
-
-	stairs.register_stair_and_slab("swiss_cheese", "fdecor:swiss_cheese", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-			{"fdecor_swiss_cheese.png"}, "Swiss Cheese Stairs", "Swiss Cheese Slab", default.node_sound_defaults())
-
-	stairs.register_stair_and_slab("cheddar_cheese", "fdecor:cheddar_cheese", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-			{"fdecor_cheddar_cheese.png"}, "Cheddar Cheese Stairs", "Cheddar Cheese Slab", default.node_sound_defaults())
-
-	stairs.register_stair_and_slab("milk_chocolate", "fdecor:milk_chocolate", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-			{"fdecor_milk_chocolate.png"}, "Milk Chocolate Stairs", "Milk Chocolate Slab", default.node_sound_stone_defaults())
-
-	stairs.register_stair_and_slab("dark_chocolate", "fdecor:dark_chocolate", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-			{"fdecor_dark_chocolate.png"}, "Dark Chocolate Stairs", "Dark Chocolate Slab", default.node_sound_stone_defaults())
-
-	stairs.register_stair_and_slab("white_chocolate", "fdecor:white_chocolate", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-			{"fdecor_white_chocolate.png"}, "White Chocolate Stairs", "White Chocolate Slab", default.node_sound_stone_defaults())
-
-	stairs.register_stair_and_slab("milk_chocolate_brick", "fdecor:milk_chocolate_brick", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-			{"fdecor_milk_chocolate_brick.png"}, "Milk Chocolate Brick Stairs", "Milk Chocolate Brick Slab", default.node_sound_stone_defaults())
-
-	stairs.register_stair_and_slab("dark_chocolate_brick", "fdecor:dark_chocolate_brick", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-			{"fdecor_dark_chocolate_brick.png"}, "Dark Chocolate Brick Stairs", "Dark Chocolate Brick Slab", default.node_sound_stone_defaults())
-
-	stairs.register_stair_and_slab("white_chocolate_brick", "fdecor:white_chocolate_brick", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-			{"fdecor_white_chocolate_brick.png"}, "White Chocolate Brick Stairs", "White Chocolate Brick Slab", default.node_sound_stone_defaults())
 end
 
 if minetest.get_modpath("flowerpots") then
@@ -1075,7 +882,13 @@ minetest.register_craft({
 	recipe = {"fdecor:brown_mushroom"}
 })
 
-if minetest.get_modpath("crops") then
+minetest.register_craft({
+	type = "shapeless",
+	output = "fdecor:jackolantern",
+	recipe = {"fdecor:pumpkin", "default:torch"}
+})
+
+if crops_path then
 	minetest.register_craft({
 		output = "fdecor:potato",
 		recipe = {
@@ -1089,68 +902,6 @@ if minetest.get_modpath("crops") then
 		type = "shapeless",
 		output = "crops:potato 9",
 		recipe = {"fdecor:potato"}
-	})
-end
-
-if farming.mod == "redo" then
-	minetest.register_craft({
-		output = "fdecor:carrot",
-		recipe = {
-			{"farming:carrot", "farming:carrot", "farming:carrot"},
-			{"farming:carrot", "farming:carrot", "farming:carrot"},
-			{"farming:carrot", "farming:carrot", "farming:carrot"}
-		}
-	})
-
-	minetest.register_craft({
-		type = "shapeless",
-		output = "farming:carrot 9",
-		recipe = {"fdecor:carrot"}
-	})
-
-	minetest.register_craft({
-		output = "fdecor:dark_chocolate",
-		recipe = {
-			{"farming:chocolate_dark", "farming:chocolate_dark", "farming:chocolate_dark"},
-			{"farming:chocolate_dark", "farming:chocolate_dark", "farming:chocolate_dark"},
-			{"farming:chocolate_dark", "farming:chocolate_dark", "farming:chocolate_dark"}
-		}
-	})
-
-	minetest.register_craft({
-		type = "shapeless",
-		output = "farming:chocolate_dark 9",
-		recipe = {"fdecor:dark_chocolate"}
-	})
-
-	minetest.register_craft({
-		output = "fdecor:potato",
-		recipe = {
-			{"farming:potato", "farming:potato", "farming:potato"},
-			{"farming:potato", "farming:potato", "farming:potato"},
-			{"farming:potato", "farming:potato", "farming:potato"}
-		}
-	})
-
-	minetest.register_craft({
-		type = "shapeless",
-		output = "farming:potato 9",
-		recipe = {"fdecor:potato"}
-	})
-
-	minetest.register_craft({
-		output = "fdecor:rhubarb",
-		recipe = {
-			{"farming:rhubarb", "farming:rhubarb", "farming:rhubarb"},
-			{"farming:rhubarb", "farming:rhubarb", "farming:rhubarb"},
-			{"farming:rhubarb", "farming:rhubarb", "farming:rhubarb"}
-		}
-	})
-
-	minetest.register_craft({
-		type = "shapeless",
-		output = "farming:rhubarb 9",
-		recipe = {"fdecor:rhubarb"}
 	})
 end
 
