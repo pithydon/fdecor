@@ -183,7 +183,7 @@ minetest.register_node("fdecor:jackolantern", {
 	paramtype2 = "facedir",
 	tiles = {"fdecor_pumpkin_top.png", "fdecor_pumpkin_bottom.png", "fdecor_pumpkin_side.png", "fdecor_pumpkin_side.png", "fdecor_pumpkin_side.png",
 			{name = "fdecor_pumpkin_jackolantern_anim.png", animation = { type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 1.2}}},
-	light_source = 14,
+	light_source = 12,
 	drop = "fdecor:unlit_jackolantern",
 	groups = {snappy = 3, oddly_breakable_by_hand = 2, flammable = 3},
 	sounds = default.node_sound_wood_defaults({
@@ -886,6 +886,12 @@ minetest.register_craft({
 	type = "shapeless",
 	output = "fdecor:jackolantern",
 	recipe = {"fdecor:pumpkin", "default:torch"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "fdecor:jackolantern",
+	recipe = {"fdecor:unlit_jackolantern", "default:torch"}
 })
 
 if crops_path then
