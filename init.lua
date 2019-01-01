@@ -281,6 +281,7 @@ minetest.register_node("fdecor:broccoli_sapling", {
 	description = "Broccoli Sapling",
 	drawtype = "plantlike",
 	paramtype = "light",
+	inventory_image = "fdecor_broccoli_sapling.png",
 	tiles = {"fdecor_broccoli_sapling.png"},
 	selection_box = {
 		type = "fixed",
@@ -321,6 +322,7 @@ minetest.register_node("fdecor:cauliflower_sapling", {
 	description = "Cauliflower Sapling",
 	drawtype = "plantlike",
 	paramtype = "light",
+	inventory_image = "fdecor_cauliflower_sapling.png",
 	tiles = {"fdecor_cauliflower_sapling.png"},
 	selection_box = {
 		type = "fixed",
@@ -447,14 +449,9 @@ minetest.register_node("fdecor:mushroom_stipe", {
 	drawtype = "nodebox",
 	paramtype = "light",
 	node_box = {
-		type = "connected",
-		fixed = {{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25}},
-		connect_front = {{-0.25, -0.5, -0.5, 0.25, -0.25, -0.25}},
-		connect_left = {{-0.5, -0.5, -0.25, -0.25, -0.25, 0.25}},
-		connect_back = {{-0.25, -0.5, 0.25, 0.25, -0.25, 0.5}},
-		connect_right = {{0.25, -0.5, -0.25, 0.5, -0.25, 0.25}},
+		type = "fixed",
+		fixed = {-0.25, -0.5, -0.25, 0.25, 0.5, 0.25}
 	},
-	connects_to = {"fdecor:mushroom_stipe", "group:tree", "group:wood", "group:stone"},
 	tiles = {"fdecor_mushroom_stipe.png"},
 	groups = {food = 1, oddly_breakable_by_hand = 3, snappy = 3}
 })
@@ -1098,6 +1095,56 @@ if minetest.setting_getbool("enable_fdecor_biomes") ~= false then
 			y_min = 1,
 			y_max = 31000,
 			biomes = {"broccoli_forest"}
+		})
+
+		minetest.register_decoration({
+			deco_type = "schematic",
+			place_on = {"default:dirt_with_grass"},
+			sidelen = 16,
+			noise_params = {
+				offset = -0.075,
+				scale = 0.09,
+				spread = {x = 200, y = 200, z = 200},
+				seed = 329,
+				octaves = 3,
+				persist = 0.6
+			},
+			biomes = {"deciduous_forest", "coniferous_forest", "floatland_coniferous_forest"},
+			y_min = 1,
+			y_max = 31000,
+			schematic = {
+				size = {x = 1, y = 3, z = 1},
+				data = {
+					{name = "air", prob = 0},
+					{name = "fdecor:mushroom_stipe", prob = 255, force_place = true},
+					{name = "fdecor:brown_mushroom", prob = 255, force_place = true},
+				}
+			}
+		})
+
+		minetest.register_decoration({
+			deco_type = "schematic",
+			place_on = {"default:dirt_with_grass"},
+			sidelen = 16,
+			noise_params = {
+				offset = -0.075,
+				scale = 0.09,
+				spread = {x = 200, y = 200, z = 200},
+				seed = 330,
+				octaves = 3,
+				persist = 0.6
+			},
+			biomes = {"deciduous_forest", "coniferous_forest", "floatland_coniferous_forest"},
+			y_min = 1,
+			y_max = 31000,
+			schematic = {
+				size = {x = 1, y = 3, z = 1},
+				data = {
+					{name = "air", prob = 0},
+					{name = "fdecor:mushroom_stipe", prob = 255, force_place = true},
+					{name = "fdecor:red_mushroom", prob = 255, force_place = true},
+				}
+			}
 		})
 
 		for _,v in ipairs({{-0.03,0.09,5},{-0.015,0.075,4},{0,0.06,3},{0.015,0.045,2},{0.03,0.03,1}}) do
