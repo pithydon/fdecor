@@ -196,7 +196,7 @@ minetest.register_node("fdecor:coconut", {
 	description = "Coconut Block",
 	drawtype = "normal",
 	tiles = {"fdecor_coconut_top.png", "fdecor_coconut.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 2, falling_hanging_node = 1, falling_kill_node = 1},
+	groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 2, float = 1, falling_hanging_node = 1, falling_kill_node = 1},
 	sounds = default.node_sound_wood_defaults()
 })
 
@@ -434,7 +434,7 @@ minetest.register_node("fdecor:mashed_potatoes", {
 	description = "Mashed Potatoes Block",
 	drawtype = "normal",
 	tiles = {"fdecor_mashed_potatoes.png"},
-	groups = {food = 1, oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 1}
+	groups = {food = 1, oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 2}
 })
 
 minetest.register_node("fdecor:potato_brick", {
