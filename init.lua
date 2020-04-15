@@ -1,8 +1,6 @@
 fdecor = {}
 local creative = minetest.setting_getbool("creative_mode")
 local modpath = minetest.get_modpath("fdecor")
-local crops_path = minetest.get_modpath("crops")
-local moreblocks_path = minetest.get_modpath("moreblocks")
 
 -- index {
 --  sound
@@ -36,17 +34,8 @@ for _,v in ipairs({{"blue", "Blue"}, {"marble", "Marble"}, {"white", "White"}, {
 	walls.register("fdecor:"..v[1].."_cheese_wall", v[2].." Cheese Wall", "fdecor_"..v[1].."_cheese.png",
 			"fdecor:"..v[1].."_cheese", default.node_sound_defaults())
 
-	if moreblocks_path then
-		stairsplus:register_all("stairs", v[1].."_cheese", "fdecor:"..v[1].."_cheese", {
-			description = v[2].." Cheese",
-			tiles = {"fdecor_"..v[1].."_cheese.png"},
-			groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-			sounds = default.node_sound_defaults()
-		})
-	else
-		stairs.register_stair_and_slab(v[1].."_cheese", "fdecor:"..v[1].."_cheese", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
-				{"fdecor_"..v[1].."_cheese.png"}, v[2].." Cheese Stairs", v[2].." Cheese Slab", default.node_sound_defaults())
-	end
+	stairs.register_stair_and_slab(v[1].."_cheese", "fdecor:"..v[1].."_cheese", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, snappy = 1},
+			{"fdecor_"..v[1].."_cheese.png"}, v[2].." Cheese Stairs", v[2].." Cheese Slab", default.node_sound_defaults())
 end
 
 for _,v in ipairs({{"milk", "Milk"}, {"dark", "Dark"}, {"white", "White"}}) do
@@ -93,27 +82,11 @@ for _,v in ipairs({{"milk", "Milk"}, {"dark", "Dark"}, {"white", "White"}}) do
 	walls.register("fdecor:"..v[1].."_chocolate_wall", v[2].." Chocolate Wall", "fdecor_"..v[1].."_chocolate.png",
 			"fdecor:"..v[1].."_chocolate", default.node_sound_stone_defaults())
 
-	if moreblocks_path then
-		stairsplus:register_all("stairs", v[1].."_chocolate", "fdecor:"..v[1].."_chocolate", {
-			description = v[2].." Chocolate",
-			tiles = {"fdecor_"..v[1].."_chocolate.png"},
-			groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-			sounds = default.node_sound_stone_defaults()
-		})
+	stairs.register_stair_and_slab(v[1].."_chocolate", "fdecor:"..v[1].."_chocolate", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+			{"fdecor_"..v[1].."_chocolate.png"}, v[2].." Chocolate Stairs", v[2].." Chocolate Slab", default.node_sound_stone_defaults())
 
-		stairsplus:register_all("stairs", v[1].."_chocolate_brick", "fdecor:"..v[1].."_chocolate_brick", {
-			description = v[2].." Chocolate Brick",
-			tiles = {"fdecor_"..v[1].."_chocolate_brick.png"},
-			groups = {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-			sounds = default.node_sound_stone_defaults()
-		})
-	else
-		stairs.register_stair_and_slab(v[1].."_chocolate", "fdecor:"..v[1].."_chocolate", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-				{"fdecor_"..v[1].."_chocolate.png"}, v[2].." Chocolate Stairs", v[2].." Chocolate Slab", default.node_sound_stone_defaults())
-
-		stairs.register_stair_and_slab(v[1].."_chocolate_brick", "fdecor:"..v[1].."_chocolate_brick", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
-				{"fdecor_"..v[1].."_chocolate_brick.png"}, v[2].." Chocolate Brick Stairs", v[2].." Chocolate Brick Slab", default.node_sound_stone_defaults())
-	end
+	stairs.register_stair_and_slab(v[1].."_chocolate_brick", "fdecor:"..v[1].."_chocolate_brick", {food = 1, oddly_breakable_by_hand = 1, cracky = 3, choppy = 2},
+			{"fdecor_"..v[1].."_chocolate_brick.png"}, v[2].." Chocolate Brick Stairs", v[2].." Chocolate Brick Slab", default.node_sound_stone_defaults())
 end
 
 minetest.register_node("fdecor:apple", {
@@ -131,27 +104,16 @@ minetest.register_node("fdecor:apple_sauce", {
 	groups = {food = 1, crumbly = 3, oddly_breakable_by_hand = 3, explody = 1, falling_node = 1}
 })
 
-if crops_path then
-	minetest.override_item("crops:pumpkin", {
-		tiles = {"fdecor_pumpkin_top.png", "fdecor_pumpkin_bottom.png", "fdecor_pumpkin_side.png"},
-		groups = {food = 1, snappy = 3, oddly_breakable_by_hand = 2, flammable = 3}
+minetest.register_node("fdecor:pumpkin", {
+	description = "Pumpkin",
+	drawtype = "normal",
+	tiles = {"fdecor_pumpkin_top.png", "fdecor_pumpkin_bottom.png", "fdecor_pumpkin_side.png"},
+	groups = {food = 1, snappy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	sounds = default.node_sound_wood_defaults({
+		dig = {name = "default_dig_oddly_breakable_by_hand"},
+		dug = {name = "default_dig_choppy"}
 	})
-
-	minetest.register_alias("fdecor:pumpkin", "crops:pumpkin")
-else
-	minetest.register_node("fdecor:pumpkin", {
-		description = "Pumpkin",
-		drawtype = "normal",
-		tiles = {"fdecor_pumpkin_top.png", "fdecor_pumpkin_bottom.png", "fdecor_pumpkin_side.png"},
-		groups = {food = 1, snappy = 3, oddly_breakable_by_hand = 2, flammable = 3},
-		sounds = default.node_sound_wood_defaults({
-			dig = {name = "default_dig_oddly_breakable_by_hand"},
-			dug = {name = "default_dig_choppy"}
-		})
-	})
-
-	minetest.register_alias("crops:pumpkin", "fdecor:pumpkin")
-end
+})
 
 minetest.register_node("fdecor:unlit_jackolantern", {
 	description = "Unlit Jack O Lantern",
@@ -587,34 +549,14 @@ stairs.register_stair("bread", "fdecor:bread", {food = 1, oddly_breakable_by_han
 		{"fdecor_bread_stair.png", "fdecor_bread_bottom.png", "fdecor_bread_side.png", "fdecor_bread_side.png", "fdecor_bread_slice.png"},
 		"Bread Stair", default.node_sound_defaults())
 
-if moreblocks_path then
-	stairsplus:register_all("stairs", "peanut_butter", "fdecor:peanut_butter", {
-		description = "Peanut Butter",
-		tiles = {"fdecor_peanut_butter.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1}
-	})
+stairs.register_stair_and_slab("peanut_butter", "fdecor:peanut_butter", {food = 1, oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1},
+		{"fdecor_peanut_butter.png"}, "Peanut Butter Stairs", "Peanut Butter Slab")
 
-	stairsplus:register_all("stairs", "mashed_potatoes", "fdecor:mashed_potatoes", {
-		description = "Mashed Potatoes",
-		tiles = {"fdecor_mashed_potatoes.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 1}
-	})
+stairs.register_stair_and_slab("mashed_potatoes", "fdecor:mashed_potatoes", {food = 1, oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 1},
+		{"fdecor_mashed_potatoes.png"}, "Mashed Potatoes Stairs", "Mashed Potatoes Slab")
 
-	stairsplus:register_all("stairs", "potato_brick", "fdecor:potato_brick", {
-		description = "Potato Brick",
-		tiles = {"fdecor_potato_brick.png"},
-		groups = {food = 1, oddly_breakable_by_hand = 2, choppy = 2}
-	})
-else
-	stairs.register_stair_and_slab("peanut_butter", "fdecor:peanut_butter", {food = 1, oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1},
-			{"fdecor_peanut_butter.png"}, "Peanut Butter Stairs", "Peanut Butter Slab")
-
-	stairs.register_stair_and_slab("mashed_potatoes", "fdecor:mashed_potatoes", {food = 1, oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 1},
-			{"fdecor_mashed_potatoes.png"}, "Mashed Potatoes Stairs", "Mashed Potatoes Slab")
-
-	stairs.register_stair_and_slab("potato_brick", "fdecor:potato_brick", {food = 1, oddly_breakable_by_hand = 2, choppy = 2},
-			{"fdecor_potato_brick.png"}, "Potato Brick Stairs", "Potato Brick Slab")
-end
+stairs.register_stair_and_slab("potato_brick", "fdecor:potato_brick", {food = 1, oddly_breakable_by_hand = 2, choppy = 2},
+		{"fdecor_potato_brick.png"}, "Potato Brick Stairs", "Potato Brick Slab")
 
 if minetest.get_modpath("flowerpots") then
 	flowerpots.add_plant(1, "broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png")
@@ -651,26 +593,6 @@ if minetest.get_modpath("furniture") then
 			{"fdecor:potato", "fdecor:potato", "fdecor:potato"}
 		}
 	})
-end
-
-if minetest.get_modpath("csh") then
-	csh.from_node("fdecor:banana")
-	csh.from_node("fdecor:red_banana")
-	csh.from_node("fdecor:carrot")
-	csh.from_node("fdecor:broccoli_stalk")
-	csh.from_node("fdecor:cauliflower_stalk")
-	csh.from_node("fdecor:potato_brick")
-	csh.from_node("fdecor:blue_cheese")
-	csh.from_node("fdecor:marble_cheese")
-	csh.from_node("fdecor:white_cheese")
-	csh.from_node("fdecor:swiss_cheese")
-	csh.from_node("fdecor:cheddar_cheese")
-	csh.from_node("fdecor:milk_chocolate")
-	csh.from_node("fdecor:dark_chocolate")
-	csh.from_node("fdecor:white_chocolate")
-	csh.from_node("fdecor:milk_chocolate_brick")
-	csh.from_node("fdecor:dark_chocolate_brick")
-	csh.from_node("fdecor:white_chocolate_brick")
 end
 
 -- ABMs
@@ -890,40 +812,6 @@ minetest.register_craft({
 	output = "fdecor:jackolantern",
 	recipe = {"fdecor:unlit_jackolantern", "default:torch"}
 })
-
-if crops_path then
-	minetest.register_craft({
-		output = "fdecor:potato",
-		recipe = {
-			{"crops:potato", "crops:potato", "crops:potato"},
-			{"crops:potato", "crops:potato", "crops:potato"},
-			{"crops:potato", "crops:potato", "crops:potato"}
-		}
-	})
-
-	minetest.register_craft({
-		type = "shapeless",
-		output = "crops:potato 9",
-		recipe = {"fdecor:potato"}
-	})
-end
-
-if minetest.get_modpath("moretrees") then
-	minetest.register_craft({
-		output = "fdecor:coconut",
-		recipe = {
-			{"moretrees:coconut", "moretrees:coconut", "moretrees:coconut"},
-			{"moretrees:coconut", "moretrees:coconut", "moretrees:coconut"},
-			{"moretrees:coconut", "moretrees:coconut", "moretrees:coconut"}
-		}
-	})
-
-	minetest.register_craft({
-		type = "shapeless",
-		output = "moretrees:coconut 9",
-		recipe = {"fdecor:coconut"}
-	})
-end
 
 -- mapgen
 if minetest.setting_getbool("enable_fdecor_biomes") ~= false then

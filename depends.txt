@@ -4,9 +4,5 @@ doors
 stairs
 walls
 xpanes
-crops?
-csh?
 flowerpots?
 furniture?
-moreblocks?
-moretrees?
