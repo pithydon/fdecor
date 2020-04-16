@@ -247,7 +247,44 @@ minetest.register_node("fdecor:bread_slab", {
 	tiles = {"fdecor_bread_slice.png", "fdecor_bread_slice.png^[transformR180", "fdecor_bread_side.png^[transformR270",
 			"fdecor_bread_side.png^[transformR90", "fdecor_bread_top.png", "fdecor_bread_bottom.png"},
 	groups = {oddly_breakable_by_hand = 3, choppy = 3, snappy = 2, flammable = 3},
-	sounds = default.node_sound_defaults()
+	sounds = default.node_sound_defaults(),
+	on_place = function(itemstack, placer, pointed_thing)
+		if pointed_thing.type ~= "node" then
+			return itemstack
+		end
+		local under = pointed_thing.under
+		local above = pointed_thing.above
+		local param2
+		if under.y == above.y then
+			if under.z < above.z then
+				param2 = 6
+			elseif under.z > above.z then
+				param2 = 8
+			elseif under.x < above.x then
+				param2 = 15
+			elseif under.x > above.x then
+				param2 = 17
+			end
+		elseif under.y > above.y then
+			local placer_pos = placer:get_pos()
+			local z = placer_pos.z - above.z
+			local x = placer_pos.x - above.x
+			if math.abs(z) > math.abs(x) then
+				if z > 0 then
+					param2 = 22
+				else
+					param2 = 20
+				end
+			else
+				if x > 0 then
+					param2 = 21
+				else
+					param2 = 23
+				end
+			end
+		end
+		return minetest.item_place(itemstack, placer, pointed_thing, param2)
+	end
 })
 
 minetest.register_node("fdecor:strawberry", {
