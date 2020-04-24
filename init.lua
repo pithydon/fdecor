@@ -97,6 +97,20 @@ minetest.register_node("fdecor:apple", {
 	sounds = fdecor.node_sound_crunchy_defaults()
 })
 
+minetest.register_node("fdecor:blueberry", {
+	description = "Blueberry Block",
+	drawtype = "normal",
+	tiles = {"fdecor_blueberry_top.png", "fdecor_blueberry_bottom.png", "fdecor_blueberry_side.png"},
+	groups = {oddly_breakable_by_hand = 2, crumbly = 3}
+})
+
+minetest.register_node("fdecor:blueberry_brick", {
+	description = "Blueberry Brick",
+	drawtype = "normal",
+	tiles = {"fdecor_blueberry_brick.png"},
+	groups = {oddly_breakable_by_hand = 2, crumbly = 3}
+})
+
 minetest.register_node("fdecor:apple_sauce", {
 	description = "Apple Sauce Block",
 	drawtype = "normal",
@@ -648,6 +662,9 @@ stairs.register_stair_and_slab("mashed_potatoes", "fdecor:mashed_potatoes", {odd
 
 stairs.register_stair_and_slab("potato_brick", "fdecor:potato_brick", {oddly_breakable_by_hand = 2, choppy = 2},
 		{"fdecor_potato_brick.png"}, "Potato Brick Stairs", "Potato Brick Slab")
+
+stairs.register_stair_and_slab("blueberry_brick", "fdecor:blueberry_brick", {oddly_breakable_by_hand = 2, crumbly = 3},
+		{"fdecor_blueberry_brick.png"}, "Blueberry Brick Stairs", "Blueberry Brick Slab")
 
 if minetest.get_modpath("flowerpots") then
 	flowerpots.add_plant(1, "broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png")
