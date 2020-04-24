@@ -176,6 +176,24 @@ minetest.register_node("fdecor:coconut", {
 	sounds = default.node_sound_wood_defaults()
 })
 
+minetest.register_node("fdecor:coconut_half", {
+	description = "Coconut Half",
+	drawtype = "mesh",
+	mesh = "fdecor_coconut_half.obj",
+	paramtype = "light",
+	collision_box = {
+		type = "fixed",
+		fixed = {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}}
+	},
+	tiles = {{name = "fdecor_coconut_half.png", backface_culling = true}, {name = "fdecor_coconut.png", backface_culling = true}},
+	groups = {oddly_breakable_by_hand = 1, cracky = 2, float = 1, falling_node = 1, falling_damage_node = 1},
+	sounds = default.node_sound_wood_defaults()
+})
+
 minetest.register_node("fdecor:banana", {
 	description = "Banana Block",
 	drawtype = "normal",
