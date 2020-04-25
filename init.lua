@@ -101,21 +101,24 @@ minetest.register_node("fdecor:blueberry", {
 	description = "Blueberry Block",
 	drawtype = "normal",
 	tiles = {"fdecor_blueberry_top.png", "fdecor_blueberry_bottom.png", "fdecor_blueberry_side.png"},
-	groups = {oddly_breakable_by_hand = 2, crumbly = 3}
+	groups = {oddly_breakable_by_hand = 2, crumbly = 3},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:blueberry_brick", {
 	description = "Blueberry Brick",
 	drawtype = "normal",
 	tiles = {"fdecor_blueberry_brick.png"},
-	groups = {oddly_breakable_by_hand = 2, crumbly = 3}
+	groups = {oddly_breakable_by_hand = 2, crumbly = 3},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:apple_sauce", {
 	description = "Apple Sauce Block",
 	drawtype = "normal",
 	tiles = {"fdecor_apple_sauce.png"},
-	groups = {crumbly = 3, oddly_breakable_by_hand = 3, explody = 1, falling_node = 1}
+	groups = {crumbly = 3, oddly_breakable_by_hand = 3, explody = 1, falling_node = 1},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:pumpkin", {
@@ -218,7 +221,8 @@ minetest.register_node("fdecor:banana_mash", {
 	description = "Banana Mash",
 	drawtype = "normal",
 	tiles = {"fdecor_banana_mash.png"},
-	groups = {crumbly = 3, oddly_breakable_by_hand = 3, explody = 1, falling_node = 1}
+	groups = {crumbly = 3, oddly_breakable_by_hand = 3, explody = 1, falling_node = 1},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:royal_banana", {
@@ -493,28 +497,32 @@ minetest.register_node("fdecor:peanut_butter", {
 	description = "Peanut Butter Block",
 	drawtype = "normal",
 	tiles = {"fdecor_peanut_butter.png"},
-	groups = {oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1}
+	groups = {oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:potato", {
 	description = "Potato Block",
 	drawtype = "normal",
 	tiles = {"fdecor_potato.png"},
-	groups = {oddly_breakable_by_hand = 2, choppy = 2}
+	groups = {oddly_breakable_by_hand = 2, choppy = 2},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:mashed_potatoes", {
 	description = "Mashed Potatoes Block",
 	drawtype = "normal",
 	tiles = {"fdecor_mashed_potatoes.png"},
-	groups = {oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 2}
+	groups = {oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 2},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:potato_brick", {
 	description = "Potato Brick",
 	drawtype = "normal",
 	tiles = {"fdecor_potato_brick.png"},
-	groups = {oddly_breakable_by_hand = 2, choppy = 2}
+	groups = {oddly_breakable_by_hand = 2, choppy = 2},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:mushroom_mycelium", {
@@ -546,35 +554,40 @@ minetest.register_node("fdecor:mushroom_stipe", {
 		fixed = {-0.25, -0.5, -0.25, 0.25, 0.5, 0.25}
 	},
 	tiles = {"fdecor_mushroom_stipe.png"},
-	groups = {oddly_breakable_by_hand = 3, snappy = 3}
+	groups = {oddly_breakable_by_hand = 3, snappy = 3},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:white_mushroom", {
 	description = "White Mushroom Block",
 	drawtype = "normal",
 	tiles = {"fdecor_white_mushroom_top.png", "fdecor_white_mushroom_bottom.png", "fdecor_white_mushroom_side.png"},
-	groups = {oddly_breakable_by_hand = 3, snappy = 3}
+	groups = {oddly_breakable_by_hand = 3, snappy = 3},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:brown_mushroom", {
 	description = "Brown Mushroom Block",
 	drawtype = "normal",
 	tiles = {"fdecor_brown_mushroom_top.png", "fdecor_brown_mushroom_bottom.png", "fdecor_brown_mushroom_side.png"},
-	groups = {oddly_breakable_by_hand = 3, snappy = 3}
+	groups = {oddly_breakable_by_hand = 3, snappy = 3},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:red_mushroom", {
 	description = "Red Mushroom Block",
 	drawtype = "normal",
 	tiles = {"fdecor_red_mushroom_top.png", "fdecor_red_mushroom_bottom.png", "fdecor_red_mushroom_side.png"},
-	groups = {oddly_breakable_by_hand = 3, snappy = 3}
+	groups = {oddly_breakable_by_hand = 3, snappy = 3},
+	sounds = default.node_sound_defaults()
 })
 
 minetest.register_node("fdecor:orange_mushroom", {
 	description = "Orange Mushroom Block",
 	drawtype = "normal",
 	tiles = {"fdecor_orange_mushroom_top.png", "fdecor_orange_mushroom_bottom.png", "fdecor_orange_mushroom_side.png"},
-	groups = {oddly_breakable_by_hand = 3, snappy = 3}
+	groups = {oddly_breakable_by_hand = 3, snappy = 3},
+	sounds = default.node_sound_defaults()
 })
 
 default.register_fence("fdecor:french_fries", {
@@ -583,7 +596,8 @@ default.register_fence("fdecor:french_fries", {
 	inventory_image = "fdecor_french_fries_inv.png",
 	wield_image = "fdecor_french_fries_inv.png",
 	material = "fdecor:potato",
-	groups = {oddly_breakable_by_hand = 3, choppy = 3}
+	groups = {oddly_breakable_by_hand = 3, choppy = 3},
+	sounds = default.node_sound_defaults()
 })
 
 beds.register_bed("fdecor:banana_bed", {
@@ -673,16 +687,16 @@ stairs.register_stair("red_banana", "fdecor:red_banana", {oddly_breakable_by_han
 		"Red Banana Stair", default.node_sound_defaults())
 
 stairs.register_stair_and_slab("peanut_butter", "fdecor:peanut_butter", {oddly_breakable_by_hand = 1, crumbly = 1, disable_jump = 1},
-		{"fdecor_peanut_butter.png"}, "Peanut Butter Stairs", "Peanut Butter Slab")
+		{"fdecor_peanut_butter.png"}, "Peanut Butter Stairs", "Peanut Butter Slab", default.node_sound_defaults())
 
 stairs.register_stair_and_slab("mashed_potatoes", "fdecor:mashed_potatoes", {oddly_breakable_by_hand = 3, crumbly = 3, falling_sticky_node = 1},
-		{"fdecor_mashed_potatoes.png"}, "Mashed Potatoes Stairs", "Mashed Potatoes Slab")
+		{"fdecor_mashed_potatoes.png"}, "Mashed Potatoes Stairs", "Mashed Potatoes Slab", default.node_sound_defaults())
 
 stairs.register_stair_and_slab("potato_brick", "fdecor:potato_brick", {oddly_breakable_by_hand = 2, choppy = 2},
-		{"fdecor_potato_brick.png"}, "Potato Brick Stairs", "Potato Brick Slab")
+		{"fdecor_potato_brick.png"}, "Potato Brick Stairs", "Potato Brick Slab", default.node_sound_defaults())
 
 stairs.register_stair_and_slab("blueberry_brick", "fdecor:blueberry_brick", {oddly_breakable_by_hand = 2, crumbly = 3},
-		{"fdecor_blueberry_brick.png"}, "Blueberry Brick Stairs", "Blueberry Brick Slab")
+		{"fdecor_blueberry_brick.png"}, "Blueberry Brick Stairs", "Blueberry Brick Slab", default.node_sound_defaults())
 
 if minetest.get_modpath("flowerpots") then
 	flowerpots.add_plant(1, "broccoli", "Broccoli", "fdecor:broccoli_sapling", "fdecor_broccoli_sapling.png")
