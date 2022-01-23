@@ -706,18 +706,17 @@ if minetest.get_modpath("flowerpots") then
 end
 
 if minetest.get_modpath("furniture") then
-	furniture.register_wooden("fdecor:french_fries", {groups = {oddly_breakable_by_hand = 3, choppy = 3}, stick = "fdecor:french_fries"})
-	furniture.register_stone("fdecor:blue_cheese", {})
-	furniture.register_stone("fdecor:light_cheese", {})
-	furniture.register_stone("fdecor:marble_cheese", {})
-	furniture.register_stone("fdecor:white_cheese", {})
-	furniture.register_stone("fdecor:swiss_cheese", {})
-	furniture.register_stone("fdecor:yellow_cheese", {})
-	furniture.register_stone("fdecor:cheddar_cheese", {})
-	furniture.register_stone("fdecor:milk_chocolate", {})
-	furniture.register_stone("fdecor:dark_chocolate", {})
-	furniture.register_stone("fdecor:white_chocolate", {})
-	furniture.register_wool("fdecor:potato", {})
+	for _,v in ipairs({{"blue", "Blue"}, {"light", "Light"}, {"marble", "Marble"}, {"white", "White"},
+			{"swiss", "Swiss"}, {"yellow", "Yellow"}, {"cheddar", "Cheddar"}}) do
+		furniture.register_stump("fdecor:"..v[1].."_cheese", {prefix = "fdecor:", description = v[2].." Cheese Stool"})
+		furniture.register_pedestal("fdecor:"..v[1].."_cheese", {prefix = "fdecor:", description = v[2].." Cheese Pedestal"})
+	end
+	for _,v in ipairs({{"milk", "Milk"}, {"dark", "Dark"}, {"white", "White"}}) do
+		furniture.register_stump("fdecor:"..v[1].."_chocolate", {prefix = "fdecor:", description = v[2].." Chocolate Stool"})
+		furniture.register_pedestal("fdecor:"..v[1].."_chocolate", {prefix = "fdecor:", description = v[2].." Chocolate Pedestal"})
+	end
+	furniture.register_stump("fdecor:potato", {prefix = "fdecor:"})
+	furniture.register_couch("fdecor:potato", {prefix = "fdecor:"})
 end
 
 -- ABMs

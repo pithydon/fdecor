@@ -1,8 +1,0 @@
-beds
-default
-doors
-stairs
-walls
-xpanes
-flowerpots?
-furniture?
